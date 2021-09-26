@@ -1,0 +1,190 @@
+.logo{
+    height: 50px;
+    width: 100px;
+}
+.s-fixed{
+    z-index:100;
+    position:fixed;
+    width:100%;
+}
+#coffeepet-l{
+    font-weight: 600;
+}
+/*Containers*/
+.carousel-section{
+    padding: 7% 15%;
+}
+
+.color-section{
+    background-color:#ff4c68;
+    color: white;
+}
+
+.navbar{
+    padding: 1rem 0 1rem 4.5rem;
+    float: inline-start;
+}
+
+#n-pets,#n-login,#n-about{
+    color:#ffffff;
+}
+.n-left{
+    margin-left:1.5rem;
+}
+
+#n-login{
+    margin-left: -0.5rem;
+    margin-right: 0.5rem;
+}
+.s-cross-center {
+    -moz-box-align: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+.s-to-right {
+    margin-right: 0;
+    margin-left: 32rem;
+}
+
+
+.register-btn{
+    border: 0px solid #FFFFFF;
+    border-radius: 5px;
+    border-color: white;
+    background: white;
+    
+}
+
+#regis{
+    color:#71DD34;
+}
+
+.login-btn{
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+.pets-btn{
+    /* border: 0px solid #FFFFFF; */
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    /* border-color: white;
+    background: white; */
+}
+
+.about-btn{
+    /* border: 0px solid #FFFFFF; */
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    /* border-color: white;
+    background: white; */
+}
+
+/* Pets Section */
+/* 
+#pets-section{
+    background-color:#ef8172;
+} */
+
+.pets-text{
+    font-size:3rem;
+    line-height:1.5;
+}
+
+.testimonial-image{
+    width:10%;
+    border-radius: 100%;
+    margin:20px;
+}
+
+#press.color-section{
+    background-color: #ef8172;
+    text-align:center;
+    padding-bottom: 3%;
+}
+
+.press-logo{
+    width:15%;
+    margin:20px 20px 50px;
+}
+
+/* Testimonial Section */
+
+
+.testimonial-text{
+    font-size:1.8rem;
+    text-align: justify;
+    line-height:1.5;
+}
+
+.testimonial-image{
+    width:10%;
+    border-radius: 100%;
+    margin-top: 2rem;
+    margin-left:22.5rem;
+}
+
+#press.color-section{
+    background-color: #ff4c68;
+    text-align:center;
+    padding-bottom: 3%;
+}
+
+.press-logo{
+    width:15%;
+    margin:20px 20px 50px;
+}
+
+
+/*Footer*/
+
+.social-icon{
+    margin: 40px 10px;
+    
+}
+
+.footer-section{
+    padding: 2% 15%;
+    text-align: center;
+}
+
+.white-section{
+    background-color:#fff;
+    color: #000;
+}
+
+.label-review{
+    color: #34dd50;
+}
+
+.section-btn{
+    padding: 0.8rem 1rem 2.7rem 1rem;
+    position: relative;
+    text-align: center;
+    margin-left: 32.8rem;
+    /* margin-right: -40rem; */
+    width: 300px;
+    height:40px;
+}
+
+#pets-section-label{
+    margin-top: 3rem;
+    margin-left: 28rem;
+    font-size:80px;
+}
+
+#testimonial-section-label{
+    margin-top: 3rem;
+    margin-left: 21rem;
+    font-size:80px;
+}
+
+.carousel-control-next-icon,.carousel-control-prev-icon{
+    background-color: #71DD34;
+    border-radius: 100%;
+}
