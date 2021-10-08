@@ -195,3 +195,64 @@
     background-color: #71DD34;
     border-radius: 100%;
 }
+
+.cafeteria{
+    position: relative;
+    width: 1015px;
+    height: 450px;
+    margin-top: 0.5rem;
+    margin-left: 10rem;
+}
+#cafeteria-img{
+    position: absolute;
+    width: 1015px;
+    height: 450px;
+    border: 1px solid gray;
+    /* margin-top: 0.5rem;
+    margin-left: 10rem; */
+}
+
+.cafeteria::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    /* border-radius: 100%; */
+    background: rgba(70, 73, 75, 0.623);
+    filter: blur(8px);
+    /* transform: translateY(calc(100% - .75rem)); */
+    z-index: -1;
+}
+
+/* About Page */
+
+.about-title{
+    position: absolute;
+    z-index: 2;
+    text-align: right;
+    margin-top:3rem;
+    margin-left: 2rem;
+    color: white;
+}
+
+.card-template {
+    position: relative;
+    background: var(--white-color);
+    border-radius: .5rem;
+    border: 1px solid var(--border-color);
+}
+.card-template:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    border-radius: 100%;
+    background: rgba(146,161,176,.15);
+    filter: blur(5px);
+    transform: translateY(calc(100% - .75rem));
+    z-index: -1;
+}
