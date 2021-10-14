@@ -1,0 +1,41 @@
+<%- include("../partials/headerSimple", {page: 'Log-Admin'}); -%>
+
+<body class="text-center">
+    <main class="form-login">
+        <section class="card-template s-pxy-4 lg-x-4 lg-cols-4">
+            <a href="/">
+                <div class="main-logotype s-cross-center s-relative s-main-center l-block">
+                    <img id="logo" class="mb-4" src="img/Coffee Pet-LOGO1.svg" alt="">
+                </div>
+            </a>
+            <h1 class="t2 s-weight-extrabold s-center s-mb-4">Inicia sesión</h1>
+            <form action="/login-admin" method="post">
+                <div class="input-form s-relative s-mb-2 ">
+                    
+                    <div class="s-relative s-cross-center">
+                        <label class="s-mb-1 s-weight-semibold small">Username</label>
+                        <input id="log_admin" type="text" name="username" class="form-control" placeholder="Escribe tu usuario" required>
+                    </div>
+                </div>
+                <div class="s-relative s-cross-center">
+                    <label id="login-lpassword" class="s-mb-1 s-weight-semibold small">Contraseña</label>
+                    <div class="input-group">
+                        <input id="password" type="password" name="password" class="form-control" placeholder="Escribe tu contraseña" required>                        
+                    </div>
+                </div>
+                <div class="s-relative s-cross-center">
+                    <label id="login-lpassword" class="s-mb-1 s-weight-semibold small">Key</label>
+                    <div class="input-group">
+                        <input id="key" type="password" name="key" class="form-control" placeholder="Escribe la Key" required>                        
+                    </div>
+                </div>
+                <a href="admin">
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
+                </a>
+                
+                <p class="mt-5 mb-3 text-muted">&copy; Coffee Pet 2021</p>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

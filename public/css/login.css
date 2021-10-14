@@ -281,6 +281,9 @@ p{
 .two-fields input {
   width:50% !important;
 }
+#repeat{
+  margin-left: 1rem;
+}
 
 #b-registro{
   margin-top: -1.5rem;
