@@ -307,5 +307,21 @@ p{
 }
 
 .formulario__grupo-incorrecto .formulario__input {
-	border: 3px solid #bb2929;
+	border: 2px solid #bb2929;
+}
+
+.formulario__input-error{
+  color: #bb2929;
+  text-align: left;
+  margin-top: -1rem;
+}
+#checker{
+  margin-top:0rem;
+}
+#correo_checker{
+  position: relative;
+  margin-top:0rem;
+}
+#b-registro{
+  margin-top: 0.5rem;
 }

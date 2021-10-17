@@ -9,30 +9,15 @@ const sql = require('mssql')
 const port = 3001;
 const admin = require("./adminconfig");
 const fs = require("fs");
-const bcrypt = require("bcryptjs");
-const rondasDeSal = 10;
-function encryptHash(passwordClient){
-	bcrypt.hash(passwordClient, rondasDeSal, (err, encryptPassword) => {
-		if (err) {
-			console.log("Error hasheando:", err);
-		} else {
-			console.log("Y hasheada es: " + encryptPassword);
-			return encryptPassword;
-		}
-	});
-	
-}
+const password = require("./passwordGenerator");
+const passwCheck = require("./passwordCheck");
+
 let resultIDs;
 let numIDs=0;
 let key = process.env.CLIENT_SECRET;
 // let app = express();
 let logAdmin = false;
 let sessionAdmin = 0;
-// setTimeout(async()=>{
-//   const resultado = await rest.executeQuery('select * from customers');
-  
-//   console.log(resultado);
-// },1);
 var  consultQuery = function(query){
 	var connection =  new  sql.ConnectionPool(config);
 	connection.connect(function(err) {
@@ -56,14 +41,13 @@ var  consultQuery = function(query){
 	});
 }
 
-function consultIDs(){
+function consultIDs(table){
 	
-	const queryID = 'SELECT * FROM customers';
+	const queryID = 'SELECT * FROM '+table;
 	consultQuery(queryID);
 	setTimeout(async () => {
 		numIDs = parseInt(resultIDs);
 		console.log("numID: "+numIDs);
-		// console.log(typeof numIDs);
 		numIDs = numIDs+1000;
 		console.log("numID2: "+numIDs);
     }, 3000);
@@ -87,25 +71,30 @@ var  executeQuery = function(res, query){
 					res.send(err);
 				}
 				else {
-          			console.log(recordset);
-					  resultIDs = recordset.rowsAffected;
-					  console.log("Resultado: "+result);
-					// res.send(recordset);
-					
+    				console.log(recordset);
 				}
 				connection.close();
 			});
 		}
 	});
 }
-
-//  var query1 = "select * from customers";
-//  var query2 = "insert into customers(id,nombre,apellido,edad) values (5,'John','Smith',23)";
-//  var query3 = "insert into products(id,nombre,precio) values (1000,'Guante',23)";
-//  var query4 = "delete from customers where id=5";
-// 	var query5 = "update customers set edad = 32 where id=5";
-// executeQuery (res , query);
-//   executeQuery (res , query4);
+let userEmail = async (email) => { // función tipo async devolverá una Promesa
+	try {
+		await sql.connect(config); // conectamos a la DB
+		let db = new sql.Request();
+		let n=39;
+		let m = String.fromCharCode(n)
+		console.log("email: "+email);
+		let Email = "Select _Password from Usuarios where Email="+m+email+m+'';
+		let result = await db.query(Email); // almacenamos el resultado de la Promesa
+		console.log(result);
+		let id = result.recordset[0]._Password; // Obtenemos el id
+		return id; // devolvemos el resultado
+	} catch (err) {
+		console.log(err.message);
+		throw err;
+	}
+}
 
 // https.createServer({
 // 	cert: fs.readFileSync(''),
@@ -122,7 +111,14 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res){
 	res.render("pages/index");
-	// executeQuery (res , query1);
+	// setTimeout(async () => {
+	// 	let id = numIDs;
+	// 	console.log("new id: "+id);
+	// 	executeQuery(res,'INSERT INTO dbo.Clientes(id,nombre,apellido) VALUES ('+id+','+newUser.name+','+newUser.lastname+')');
+	// 	console.log("new user registred in Clientes!");
+	// 	executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+newUser.email+','+newUser.password+','+id+')');
+	// 	console.log("new user registred in Usuarios!");
+	// }, 8000);
 });
 
 app.get("/login",function(req,res){
@@ -179,19 +175,70 @@ app.post("/registro", function(req,res){
 			name: req.body.name,
 			lastname: req.body.lastname,
 			email: req.body.email,
-			password: encryptHash(pass)
+			// password: generateHash(pass)
+			password: ''
 		}
-		consultIDs();
+		password.hashGenerator(pass).then(v => {
+			console.log("v: "+v);  // prints 60 after 4 seconds.
+			newUser.password=''+v;
+		});
+		setTimeout(async () => {
+			console.log("Userpass: "+newUser.password)
+		}, 3000);
+		
+		consultIDs("Clientes");
 		setTimeout(async () => {
 			let id = numIDs;
 			console.log("new id: "+id);
-			executeQuery(res,'INSERT INTO dbo.Clientes(id,nombre,apellido) VALUES ('+id+','+newUser.name+','+newUser.lastname+')');
+			let n=39;
+			let m = String.fromCharCode(n)
+			executeQuery(res,'INSERT INTO dbo.Clientes(ID_Cliente,Nombre,ApellidoP) VALUES ('+id+','+m+newUser.name+m+','+m+newUser.lastname+m+')');
 			console.log("new user registred in Clientes!");
-			executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+newUser.email+','+newUser.password+','+id+')');
+			executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+m+newUser.email+m+','+m+newUser.password+m+','+id+')');
 			console.log("new user registred in Usuarios!");
-		}, 8000);
+			res.redirect("/");
+		}, 10000);
 	}
 	
+	
+})
+
+app.post("/login", function(req,res){
+	const pass = req.body.password;
+	const email = req.body.email;
+	let dbUserPassword;
+	userEmail(email) // es una Promesa, podemos usar then() y cacth()
+	.then(id => {
+		console.log(`El id generado es: ${id}`);
+		dbUserPassword = ''+id;
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+	setTimeout(async () => {
+		if(dbUserPassword===''){
+			console.log("El usuario no existe!");
+			res.redirect("login");
+		}
+		else{
+			let correctPassword;
+			passwCheck.passwordChecker(pass,dbUserPassword).then(v => {
+				console.log("v: "+v);  // prints 60 after 4 seconds.
+				correctPassword=v;
+			});
+			setTimeout(async () => {
+				if(correctPassword===true){
+					console.log("Usuario verificado!");
+					res.redirect("/");
+				}
+				else{
+					console.log("La contrasena es incorrecta!");
+					res.redirect("login");
+				}
+			}, 3000);
+		}
+		
+	}, 3000);
 	
 })
 

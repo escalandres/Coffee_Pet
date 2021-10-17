@@ -74,7 +74,7 @@ const validarPassword2 = () => {
 		document.querySelector(`#grupo__password2 .formulario__input-error`).classList.add('formulario__input-error-activo');
 		campos['password'] = false;
         document.getElementById('checker').innerHTML="Las contrasenas deben ser iguales"
-        document.getElementById('checker').style.color='red';
+        // document.getElementById('checker').style.color='red';
 	} else {
 		document.getElementById(`grupo__password2`).classList.remove('formulario__grupo-incorrecto');
 		document.getElementById(`grupo__password2`).classList.add('formulario__grupo-correcto');
