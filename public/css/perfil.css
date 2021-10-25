@@ -1,0 +1,258 @@
+/*Nav Bar section*/
+
+.logo{
+    margin-top: -0.1rem;
+    height: 50px;
+    width: 100px;
+}
+
+#coffeepet-l{
+    font-weight: 600;
+}
+/*Containers*/
+
+.color-section{
+    background-color:#ff4c68;
+    color: white;
+}
+
+.navbar{
+    padding: .3rem 0 .3rem 4.5rem;
+    float: inline-start;
+}
+
+#n-pets,#n-login,#n-about{
+    color:#ffffff;
+}
+.n-left{
+    margin-left:1.5rem;
+}
+
+#n-login{
+    margin-left: -0.5rem;
+    margin-right: 0.5rem;
+}
+
+.s-cross-centerNB {
+    -moz-box-align: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.s-to-right {
+    margin-right: 0;
+    margin-left: 29rem;
+}
+
+
+.register-btn{
+    border: 0px solid #FFFFFF;
+    border-radius: 5px;
+    border-color: white;
+    background: white;
+    
+}
+
+#regis{
+    color:#71DD34;
+}
+
+.login-btn{
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+.pets-btn{
+    /* border: 0px solid #FFFFFF; */
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    /* border-color: white;
+    background: white; */
+}
+
+.about-btn{
+    /* border: 0px solid #FFFFFF; */
+    border: 0px solid;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    /* border-color: white;
+    background: white; */
+}
+
+
+h2{
+    font-weight: 600;
+    font-size: 38px;
+}
+.perfil{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1rem;
+}
+img{
+    height: 100px;
+    width: 200px;
+    margin-top: 2rem;
+}
+.perfil-box{
+    position: relative;
+    /* display: inline-block; */
+    float: left;
+    text-align: center;
+    width: 20%;
+    margin-left: 6rem;
+    margin-top: 3rem;
+    outline: 1px solid  rgba(146,161,176,.15);
+}
+.card-template {
+    background: var(--white-color);
+    border-radius: .5rem;
+    border: 1px solid var(--border-color);
+}
+.card-template:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    border-radius: 100%;
+    background: rgba(146,161,176,.15);
+    filter: blur(5px);
+    transform: translateY(calc(100% - .75rem));
+    z-index: -1;
+}
+
+.perfil-info{
+    position: relative;
+    float: left;
+    /* display: inline-block; */
+    text-align: left;
+    width: 60%;
+    margin-left: 3rem;
+    margin-top: 3rem;
+    outline: 1px solid  rgba(146,161,176,.15);
+}
+input{
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+.form-small-input{
+    float: left;
+    width: 43.6%;
+}
+
+.input-right{
+    margin-left: 5.9rem;
+}
+
+.footer{
+    margin-top: 5rem;
+}
+
+.form-container{
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+
+}
+
+.top-buffer{
+    margin-top: 55px;
+    padding-top: 55px;
+}
+
+label{
+    font-size: 30px;
+}
+
+#perfil-button{
+    width: 50%;
+    margin-top: 2rem;
+    margin-left: 12.5rem;
+    margin-bottom: 2rem;
+}
+
+.social-icon{
+    margin: 40px 10px;
+}
+.footer-section{
+    padding: 2% 15%;
+    text-align: center;
+}
+
+.form-control {
+    width: 100%;
+    height: 39px;
+    padding: 6px 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-control, output {
+    font-size: 18px;
+    line-height: 1.428571429;
+    color: #555;
+    display: block;
+}
+
+.icon-box{
+    position: absolute;
+    margin-top: -1.6rem;
+    margin-left: 19rem;
+    color: gray;
+}
+
+.ocultar{
+    display: none;
+}
+
+#selectEstados{
+    width: 100%
+}
+
+#empty{
+    float: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    color: #fff;
+    width: 100%;
+}
+.choice{
+    position: relative;
+    float:left;
+    width: 40%;
+}
+
+#alcaldiaChoice{
+    margin-left:2rem;
+}
+
+.PDC{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#perfil-options{
+    color: rgba(50, 54, 56, 0.808);
+    /* color: black; */
+}
+
+#perfil-logout{
+    color: #ff4c68;
+}
+
+#User{
+    font-weight: 600;
+    color: #fff;
+}

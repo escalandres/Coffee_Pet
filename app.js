@@ -159,11 +159,18 @@ app.get("/admin",function(req,res){
 	
 })
 
+app.get("/perfil",function(req,res){
+	res.render("pages/perfil",{Username: "Andres Escala"});
+	
+})
 
 app.get("/error",function(req,res){
 	res.render("pages/error");
 })
 
+app.post("/perfil",function(req,res){
+
+})
 app.post("/registro", function(req,res){
 	let pass = req.body.password;
 	let repeat = req.body.repeat;
@@ -198,8 +205,8 @@ app.post("/registro", function(req,res){
 			console.log("new user registred in Usuarios!");
 			res.redirect("/");
 		}, 10000);
-	}
-	
+	}	
+	res.redirect("perfil");
 	
 })
 
@@ -229,7 +236,7 @@ app.post("/login", function(req,res){
 			setTimeout(async () => {
 				if(correctPassword===true){
 					console.log("Usuario verificado!");
-					res.redirect("/");
+					res.redirect("perfil");
 				}
 				else{
 					console.log("La contrasena es incorrecta!");
@@ -263,6 +270,21 @@ app.post("/login-admin", function(req, res){
 	}
 	
 });
+
+app.post("/perfil", function(req,res){
+	const userInfo = {
+		celular: req.body.celular,
+		nacimiento: req.body.nacimiento
+	}
+	const direccionUsuario = {
+		calle: req.body.calle,
+		numInt: req.body.numInt,
+		numExt: req.body.numExt,
+		colonia: req.body.colonia,
+		alcaldia: req.body.alcaldia,
+		estado: req.body.estado
+	}
+})
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
