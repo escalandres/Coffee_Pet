@@ -1,9 +1,9 @@
-<%- include("../partials/perfilHeader", {page: 'Perfil'}); -%>
+<%- include("../partials/userHeader", {page: 'Perfil'}); -%>
 <body>
     <section class="perfil">
         <div class="perfil-box card-template">
             <img id="logo" class="mb-4" src="img/Coffee Pet-LOGO1.svg" alt="">
-            <label class="PDC">Username</label>
+            <label class="PDC"><%= username %></label>
             <label class="PDC">Puntos de confianza: 12</label>
         </div>
         <div class="perfil-info card-template">

@@ -11,13 +11,36 @@ const admin = require("./adminconfig");
 const fs = require("fs");
 const password = require("./passwordGenerator");
 const passwCheck = require("./passwordCheck");
-
+const cookieCheck = require("./cookieChecker");
+const session = require('express-session');
+const cookieParser = require("cookie-parser");
+const app = express();
+const prueba = require("./consultasDB");
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
+const cookieSession = require('cookie-session');
 let resultIDs;
 let numIDs=0;
 let key = process.env.CLIENT_SECRET;
-// let app = express();
 let logAdmin = false;
 let sessionAdmin = 0;
+
+
+app.use(cookieParser());
+app.use(cookieSession({
+	secret: 'Coffee Pet',
+	maxAge: 24*60*60*1000
+}));
+
+app.use(session({
+    secret: 'Coffee Pet',
+    resave: false,
+	maxAge: 24*60*60*1000,
+    saveUninitialized: true,
+	cookie: { secure: true }
+}))
+
 var  consultQuery = function(query){
 	var connection =  new  sql.ConnectionPool(config);
 	connection.connect(function(err) {
@@ -103,26 +126,31 @@ let userEmail = async (email) => { // función tipo async devolverá una Promesa
 // 	console.log('Servidor https corriendo')
 // });
 
-const app = express();
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static("public"));
-
 app.get("/", function(req, res){
 	res.render("pages/index");
-	// setTimeout(async () => {
-	// 	let id = numIDs;
-	// 	console.log("new id: "+id);
-	// 	executeQuery(res,'INSERT INTO dbo.Clientes(id,nombre,apellido) VALUES ('+id+','+newUser.name+','+newUser.lastname+')');
-	// 	console.log("new user registred in Clientes!");
-	// 	executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+newUser.email+','+newUser.password+','+id+')');
-	// 	console.log("new user registred in Usuarios!");
-	// }, 8000);
+	// let cookieExist = cookieCheck.cookieChecker("user");
+	// console.log(cookieExist);
+	// console.dir(req.cookies.user.email);
+	// console.dir(req.cookies.user.password);
+	// console.dir(req.cookies.user.id);
+});
+
+app.get("/home", function(req, res){
+	res.render("pages/home",{Name: req.cookies.user.email});
+	// let cookieExist = cookieCheck.cookieChecker("user");
+	// console.log(cookieExist);
+	// console.dir(req.cookies.user.email);
+	// console.dir(req.cookies.user.password);
+	// console.dir(req.cookies.user.id);
 });
 
 app.get("/login",function(req,res){
-	res.render("pages/login");
+	if(req.cookies.user===undefined){
+		res.render("pages/login");
+	}
+	else{
+		res.redirect("perfil");
+	}
 })
 
 app.get("/registro",function(req,res){
@@ -133,18 +161,33 @@ app.get("/about",function(req,res){
 	res.render("pages/about");
 })
 
+app.get("/uabout",function(req,res){
+	res.render("pages/uabout",{Name: req.cookies.user.email});
+})
+
 app.get("/pets",function(req,res){
 	res.render("pages/pets");
+})
+
+app.get("/upets",function(req,res){
+	res.render("pages/upets",{Name: req.cookies.user.email});
 })
 
 app.get("/login-admin",function(req,res){
 	res.render("pages/login-admin");
 })
 
-app.get("/logout",function(req,res){
+app.get("/logout-admin",function(req,res){
 	logAdmin = false;
 	sessionAdmin = 0;
 	console.log("Sesion admin cerrada");
+	res.redirect("/");
+})
+
+app.get("/logout",function(req,res){
+	console.log("Sesion user cerrada");
+	req.session = null;
+	res.clearCookie('Coffee_Pet', { path: '/' });
 	res.redirect("/");
 })
 
@@ -160,7 +203,19 @@ app.get("/admin",function(req,res){
 })
 
 app.get("/perfil",function(req,res){
-	res.render("pages/perfil",{Username: "Andres Escala"});
+	res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
+	// let userID = req.signedCookies;
+	
+	// setTimeout(async () => {
+	// 	let result2 = await pool.request()
+    //         .input('@ID', sql.Int, userID)
+    //         .output('@NOmbre', sql.VarChar(50))
+    //         .execute('obtenerNombreCliente')
+        
+    // console.dir(result2)
+	// res.render("pages/perfil",{Username: result2});
+	// }, 5000);
+	
 	
 })
 
@@ -182,21 +237,18 @@ app.post("/registro", function(req,res){
 			name: req.body.name,
 			lastname: req.body.lastname,
 			email: req.body.email,
-			// password: generateHash(pass)
 			password: ''
 		}
-		password.hashGenerator(pass).then(v => {
-			console.log("v: "+v);  // prints 60 after 4 seconds.
-			newUser.password=''+v;
+		password.hashGenerator(pass).then(hash => {
+			newUser.password=''+hash;
 		});
-		setTimeout(async () => {
-			console.log("Userpass: "+newUser.password)
-		}, 3000);
-		
+		// setTimeout(async () => {
+		// 	console.log("Userpass: "+newUser.password)
+		// }, 3000);
 		consultIDs("Clientes");
 		setTimeout(async () => {
 			let id = numIDs;
-			console.log("new id: "+id);
+			// console.log("new id: "+id);
 			let n=39;
 			let m = String.fromCharCode(n)
 			executeQuery(res,'INSERT INTO dbo.Clientes(ID_Cliente,Nombre,ApellidoP) VALUES ('+id+','+m+newUser.name+m+','+m+newUser.lastname+m+')');
@@ -215,9 +267,9 @@ app.post("/login", function(req,res){
 	const email = req.body.email;
 	let dbUserPassword;
 	userEmail(email) // es una Promesa, podemos usar then() y cacth()
-	.then(id => {
-		console.log(`El id generado es: ${id}`);
-		dbUserPassword = ''+id;
+	.then(passwordRecovered => {
+		// console.dir(`El id generado es: ${passwordRecovered}`);
+		dbUserPassword = ''+passwordRecovered;
 	})
 	.catch(error => {
 		console.log(`Hubo un error`);
@@ -230,22 +282,45 @@ app.post("/login", function(req,res){
 		else{
 			let correctPassword;
 			passwCheck.passwordChecker(pass,dbUserPassword).then(v => {
-				console.log("v: "+v);  // prints 60 after 4 seconds.
+				// console.log("v: "+v);
 				correctPassword=v;
 			});
 			setTimeout(async () => {
 				if(correctPassword===true){
 					console.log("Usuario verificado!");
-					res.redirect("perfil");
+					let userID;
+					prueba.getUserID(email)
+					.then(result => {
+						// console.dir(result)
+						// console.log("result: "+result);
+						userID = result.output.ID;
+						// console.log("UserIID: "+userID);
+					}).catch(err => {
+						// ... error checks
+					})
+					setTimeout(async () => {
+						
+						console.log("userIDI: "+userID)
+						res.cookie('user',{email:""+email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
+						console.log("Cookie creada!");
+						res.redirect("perfil");
+					}, 3000);
+					
+					// const user = {
+					// 	email: email,
+					// 	password: pass
+					// }
+					// console.log(req.session);
+					// req.session.user = user;
 				}
 				else{
 					console.log("La contrasena es incorrecta!");
 					res.redirect("login");
 				}
-			}, 3000);
+			}, 4000);
 		}
 		
-	}, 3000);
+	}, 11000);
 	
 })
 

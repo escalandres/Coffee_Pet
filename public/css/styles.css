@@ -196,6 +196,8 @@
     border-radius: 100%;
 }
 
+/* About Page */
+
 .cafeteria{
     position: relative;
     width: 1015px;
@@ -207,6 +209,7 @@
     position: absolute;
     width: 1015px;
     height: 450px;
+    margin-top: -0rem;
     border: 1px solid gray;
     /* margin-top: 0.5rem;
     margin-left: 10rem; */
@@ -226,14 +229,13 @@
     z-index: -1;
 }
 
-/* About Page */
-
 .about-title{
     position: absolute;
     z-index: 2;
     text-align: right;
     margin-top:3rem;
     margin-left: 2rem;
+    font-size: 40px;
     color: white;
 }
 
