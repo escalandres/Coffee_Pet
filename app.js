@@ -4,14 +4,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const config = require("./dbconfig");
-// const rest = new(require('rest-mssql-nodejs'))(config);
 const sql = require('mssql')
 const port = 3001;
 const admin = require("./adminconfig");
 const fs = require("fs");
 const password = require("./passwordGenerator");
 const passwCheck = require("./passwordCheck");
-const cookieCheck = require("./cookieChecker");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -137,11 +135,6 @@ app.get("/", function(req, res){
 
 app.get("/home", function(req, res){
 	res.render("pages/home",{Name: req.cookies.user.email});
-	// let cookieExist = cookieCheck.cookieChecker("user");
-	// console.log(cookieExist);
-	// console.dir(req.cookies.user.email);
-	// console.dir(req.cookies.user.password);
-	// console.dir(req.cookies.user.id);
 });
 
 app.get("/login",function(req,res){
@@ -173,6 +166,11 @@ app.get("/upets",function(req,res){
 	res.render("pages/upets",{Name: req.cookies.user.email});
 })
 
+app.get("/reservacion",function(req,res){
+	res.render("pages/reservacion",{Name: req.cookies.user.email});
+})
+
+
 app.get("/login-admin",function(req,res){
 	res.render("pages/login-admin");
 })
@@ -187,7 +185,7 @@ app.get("/logout-admin",function(req,res){
 app.get("/logout",function(req,res){
 	console.log("Sesion user cerrada");
 	req.session = null;
-	res.clearCookie('Coffee_Pet', { path: '/' });
+	res.clearCookie('user', { path: '/' });
 	res.redirect("/");
 })
 
@@ -203,7 +201,12 @@ app.get("/admin",function(req,res){
 })
 
 app.get("/perfil",function(req,res){
-	res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
+	if(req.cookies.user === undefined){
+		res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido'});
+	}
+	else{
+		res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
+	}
 	// let userID = req.signedCookies;
 	
 	// setTimeout(async () => {
@@ -255,8 +258,19 @@ app.post("/registro", function(req,res){
 			console.log("new user registred in Clientes!");
 			executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+m+newUser.email+m+','+m+newUser.password+m+','+id+')');
 			console.log("new user registred in Usuarios!");
-			res.redirect("/");
-		}, 10000);
+			let userID;
+			prueba.getUserID(email)
+			.then(result => {
+				userID = result.output.ID;
+			}).catch(err => {
+				// ... error checks
+			})
+			setTimeout(async () => {
+				res.cookie('user',{email:""+email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
+				console.log("Cookie creada!");
+				res.redirect("perfil");
+			}, 2000);
+		}, 4000);
 	}	
 	res.redirect("perfil");
 	
@@ -300,11 +314,11 @@ app.post("/login", function(req,res){
 					})
 					setTimeout(async () => {
 						
-						console.log("userIDI: "+userID)
+						// console.log("userIDI: "+userID)
 						res.cookie('user',{email:""+email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
 						console.log("Cookie creada!");
 						res.redirect("perfil");
-					}, 3000);
+					}, 2000);
 					
 					// const user = {
 					// 	email: email,
@@ -317,10 +331,10 @@ app.post("/login", function(req,res){
 					console.log("La contrasena es incorrecta!");
 					res.redirect("login");
 				}
-			}, 4000);
+			}, 3000);
 		}
 		
-	}, 11000);
+	}, 6000);
 	
 })
 

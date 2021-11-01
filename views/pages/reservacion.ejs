@@ -1,0 +1,89 @@
+<%- include("../partials/userHeader", {page: 'Reservacion'}); -%>
+
+<div id="carousel-section1">
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-interval="true">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="car-img" src="img/coffee2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img class="car-img" src="img/coffee3.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img class="car-img" src="img/coffee4.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img class="car-img" src="img/coffee5.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+<div class="reservation-section card-template">
+    <form action="/reservacion" method="post" id="reservacion-form">
+        <div class="form-container">
+            <div class="input-form s-relative s-mb-2 ">
+                <h1 class="">"Haz tu reservacion ya" </h1>
+                <h2 >Tipo de servicion</h2>
+                <div class="radio-part">
+                    <div class="radio-op">
+                        <label for="">Mesa en cafeteria</label>
+                        <input type="radio" name="tipo-reservacion" value="mesa" id="radio1" onclick="formulario()">
+                    </div>
+                    <div class="radio-op" id="left-op">
+                        <label for="">Paseo de mascota</label>
+                        <input type="radio" name="tipo-reservacion" value="paseo" id="radio2" onclick="formulario()">
+                        <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
+                    </div>
+                </div>
+                <div class="inputs-op">
+                    <div>
+                        <label for="">Seleccione una fecha de reservacion</label>
+                        <input id="fecha-reservacion" type="date" name="fecha-reservacion" class="form-control" placeholder="dd/mm/aa" required>
+                    </div>
+                    <label for="">Seleccione las horas de reservacion</label>
+                    <div class="radio-part">
+                        
+                        <div class="radio-op ocultar mesa-option" id="mesa-option">
+                            <label for="">Hora de Llegada</label>
+                            <input class="mesa-required" type="time" id="h-llegada" name="h-llegada" required>
+                        </div>
+                        <div class="radio-op ocultar mesa-option" id="left-op">
+                            <label for="">Hora de Salida</label>
+                            <input class="mesa-required" type="time" id="h-salida" name="h-salida" required>
+                        </div>
+                        <div class="radio-op ocultar paseo-option" id="paseo-option">
+                            <label for="">Hora de Recogida</label>
+                            <input class="paseo-required" type="time" id="h-recogida" name="h-recogida" required>
+                        </div>
+                        <div class="radio-op ocultar paseo-option" id="left-op">
+                            <label for="">Hora de Entrega</label>
+                            <input class="paseo-required" type="time" id="h-entrega" name="h-entrega" required>
+                        </div>
+                        <p class="op-info" id="hora-info">Tolerancia de 15 minutos de retraso sin aviso previo</p>
+                    </div>
+                    <label for="">Seleccione la cantidad de personas y la mesa</label>
+                    <div class="radio-part ocultar mesa-option" id="">
+                        <label for="">Numero de Personas</label>
+                        <select class="mesa-required" name="num-personas" id="num-personas" required><option value="1">1 Persona</option><option value="2">2 Personas</option><option value="3">3 Personas</option><option value="4">4 Personas</option></select>
+                        <label for="">Mesa</label>
+                        <select class="mesa-required" name="num-personas" id="num-personas"><option value="1">1 Persona</option><option value="2">2 Personas</option><option value="3">3 Personas</option><option value="4">4 Personas</option></select>
+                    </div>
+                    <div class="ocultar paseo-option" id="textarea-op">
+                        <textarea class="paseo-required" name="" id="" cols="70" rows="10" placeholder="Escribir el plan de salida con la mascota" required></textarea>
+                    </div>
+                </div>
+                <button id="reservacion-button" class="btn btn-lg btn-primary" type="submit">Hacer Reservacion</button>
+            </div>
+            
+        </div>
+</div>
+<script src="js/reservacion.js"></script>
+<%- include("../partials/footer"); -%>
