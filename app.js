@@ -39,84 +39,6 @@ app.use(session({
 	cookie: { secure: true }
 }))
 
-var  consultQuery = function(query){
-	var connection =  new  sql.ConnectionPool(config);
-	connection.connect(function(err) {
-		if (err) {
-			console.log("Error while connecting database :- " + err);
-		}
-		else {
-			var request = new sql.Request(connection);
-			request.query(query, function (err, recordset) {
-				if (err) {
-					console.log("Error while querying database :- " + err);
-				}
-				else {
-					console.log("Aqui vamosss");
-					resultIDs = recordset.rowsAffected;
-					console.log("resultID: "+resultIDs);
-				}
-				connection.close();
-			});
-		}
-	});
-}
-
-function consultIDs(table){
-	
-	const queryID = 'SELECT * FROM '+table;
-	consultQuery(queryID);
-	setTimeout(async () => {
-		numIDs = parseInt(resultIDs);
-		console.log("numID: "+numIDs);
-		numIDs = numIDs+1000;
-		console.log("numID2: "+numIDs);
-    }, 3000);
-}
-
-var  executeQuery = function(res, query){
-	var connection =  new  sql.ConnectionPool(config);
-	connection.connect(function(err) {
-    // ...
-		if (err) {
-			console.log("Error while connecting database :- " + err);
-			res.send(err);
-		}
-		else {
-			// create Request object
-			var request = new sql.Request(connection);
-			// query to the database
-			request.query(query, function (err, recordset) {
-				if (err) {
-					console.log("Error while querying database :- " + err);
-					res.send(err);
-				}
-				else {
-    				console.log(recordset);
-				}
-				connection.close();
-			});
-		}
-	});
-}
-let userEmail = async (email) => { // función tipo async devolverá una Promesa
-	try {
-		await sql.connect(config); // conectamos a la DB
-		let db = new sql.Request();
-		let n=39;
-		let m = String.fromCharCode(n)
-		console.log("email: "+email);
-		let Email = "Select _Password from Usuarios where Email="+m+email+m+'';
-		let result = await db.query(Email); // almacenamos el resultado de la Promesa
-		console.log(result);
-		let id = result.recordset[0]._Password; // Obtenemos el id
-		return id; // devolvemos el resultado
-	} catch (err) {
-		console.log(err.message);
-		throw err;
-	}
-}
-
 // https.createServer({
 // 	cert: fs.readFileSync(''),
 // 	key: fs.readFileSync('')
@@ -134,79 +56,161 @@ app.get("/", function(req, res){
 });
 
 app.get("/home", function(req, res){
-	res.render("pages/home",{Name: req.cookies.user.email});
+	try {
+		res.render("pages/home",{Name: req.cookies.user.email});
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
 });
 
 app.get("/login",function(req,res){
-	if(req.cookies.user===undefined){
-		res.render("pages/login");
+	try {
+		if(req.cookies.user===undefined){
+			res.render("pages/login");
+		}
+		else{
+			res.redirect("perfil");
+		}
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
 	}
-	else{
-		res.redirect("perfil");
-	}
+	
 })
 
 app.get("/registro",function(req,res){
-	res.render("pages/registro");
+	try {
+		res.render("pages/registro");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/about",function(req,res){
-	res.render("pages/about");
+	try {
+		res.render("pages/about");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/uabout",function(req,res){
-	res.render("pages/uabout",{Name: req.cookies.user.email});
+	try {
+		res.render("pages/uabout",{Name: req.cookies.user.email});
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/pets",function(req,res){
-	res.render("pages/pets");
+	try {
+		res.render("pages/pets");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/upets",function(req,res){
-	res.render("pages/upets",{Name: req.cookies.user.email});
+	try {
+		res.render("pages/upets",{Name: req.cookies.user.email});
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/reservacion",function(req,res){
-	res.render("pages/reservacion",{Name: req.cookies.user.email});
+	try {
+		res.render("pages/reservacion",{Name: req.cookies.user.email});
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 
 app.get("/login-admin",function(req,res){
-	res.render("pages/login-admin");
+	try {
+		res.render("pages/login-admin");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/logout-admin",function(req,res){
-	logAdmin = false;
-	sessionAdmin = 0;
-	console.log("Sesion admin cerrada");
-	res.redirect("/");
+	try {
+		logAdmin = false;
+		sessionAdmin = 0;
+		console.log("Sesion admin cerrada");
+		res.redirect("/");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/logout",function(req,res){
-	console.log("Sesion user cerrada");
-	req.session = null;
-	res.clearCookie('user', { path: '/' });
-	res.redirect("/");
+	try {
+		console.log("Sesion user cerrada");
+		req.session = null;
+		res.clearCookie('user', { path: '/' });
+		res.redirect("/");
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
+	}
+	
 })
 
 app.get("/admin",function(req,res){
-	if(logAdmin === true && sessionAdmin === 0){
-		res.render("pages/admin");
-		sessionAdmin = 1;
-	}
-	else{
+	try {
+		if(logAdmin === true && sessionAdmin === 0){
+			res.render("pages/admin");
+			sessionAdmin = 1;
+		}
+		else{
+			res.redirect("error");
+		}
+	} catch (err) {
+		console.log(err.message);
 		res.redirect("error");
 	}
 	
 })
 
 app.get("/perfil",function(req,res){
-	if(req.cookies.user === undefined){
-		res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido'});
+	try {
+		if(req.cookies.user === undefined){
+			res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido'});
+		}
+		else{
+			
+			res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
+			let info = prueba.getClientInfo(req.cookies.user.id);
+			setTimeout(async () =>{
+				console.dir(info);
+				console.log("log: "+info);
+			},2000)
+		}
+	} catch (err) {
+		console.log(err.message);
+		res.redirect("error");
 	}
-	else{
-		res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
-	}
+	
 	// let userID = req.signedCookies;
 	
 	// setTimeout(async () => {
@@ -226,9 +230,6 @@ app.get("/error",function(req,res){
 	res.render("pages/error");
 })
 
-app.post("/perfil",function(req,res){
-
-})
 app.post("/registro", function(req,res){
 	let pass = req.body.password;
 	let repeat = req.body.repeat;
@@ -334,7 +335,7 @@ app.post("/login", function(req,res){
 			}, 3000);
 		}
 		
-	}, 6000);
+	}, 4000);
 	
 })
 
