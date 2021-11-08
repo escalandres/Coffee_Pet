@@ -38,17 +38,25 @@ var cod = document.getElementById(""+id).value;
 return cod;
 }
 
+// function selectAlcaldia(){
+//     let alcaldiaText = ShowText("alcaldia");
+//     let choice = document.getElementById("alcaldiaChoice");
+//     choice.innerHTML=""+alcaldiaText;
+// }
+
 function selectAlcaldia(){
     let alcaldiaText = ShowText("alcaldia");
     let choice = document.getElementById("alcaldiaChoice");
-    choice.innerHTML=""+alcaldiaText;
+    choice.value=""+alcaldiaText;
 }
 
 function showMunicipios(){
     let estado = ShowSelected("selectEstados");
     let estadoText = ShowText("selectEstados");
+    // let choice = document.getElementById("estadoChoice");
+    // choice.innerHTML=""+estadoText;
     let choice = document.getElementById("estadoChoice");
-    choice.innerHTML=""+estadoText;
+    choice.value=""+estadoText;
     ocultar();
     if(estado==1){
         //Aguascaliente

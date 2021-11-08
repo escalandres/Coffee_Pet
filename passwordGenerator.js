@@ -16,7 +16,7 @@ async function hashGenerator(pass) {
 	// console.log('calling');
 	const result = await geners(pass);
 	cllave=result;
-	// console.log(result);
+	console.log(result);
 	return cllave;
 }
 exports.hashGenerator = hashGenerator;

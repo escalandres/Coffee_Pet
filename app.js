@@ -195,16 +195,63 @@ app.get("/admin",function(req,res){
 app.get("/perfil",function(req,res){
 	try {
 		if(req.cookies.user === undefined){
-			res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido'});
+			// console.log("Error fn");
+			// res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido', Pconfianza: 'Invalido',Nombre: 'Invalido', ApellidoP: 'Invalido', ApellidoM: 'Invalido', Celular: 'Invalido', Fnacimiento: '01-01-1999'});
+			// res.redirect("error");
 		}
 		else{
+			const cliente = {
+				pconfianza: 0,
+				nombre: '',
+				apellidop: '',
+				apellidom: '',
+				celular: 0,
+				fnacimiento: 1999-01-01
+			}
+			const direccion = {
+				calle: '',
+				colonia: '',
+				ne: '',
+				ni: '',
+				estado: '',
+				alcaldia: ''
+			}
+			console.log("vamos");
+			prueba.Regresar_DatosCliente(req.cookies.user.id)
+				.then(result => {
+					console.dir(result)
+					cliente.pconfianza = result.output.pconfianza;
+					cliente.nombre = result.output.nombre;
+					cliente.apellidop = result.output.apellidop;
+					cliente.apellidom = result.output.apellidom;
+					cliente.celular = result.output.celular;
+					cliente.fnacimiento = result.output.fnacimiento;
+				}).catch(err => {
+					// ... error checks
+				})
+			prueba.Regresar_Direccion_Cliente(req.cookies.user.id)
+			.then(result => {
+				console.dir(result)
+				direccion.estado = result.output.estado;
+				direccion.alcaldia = result.output.municipio;
+				direccion.calle = result.output.calle;
+				direccion.colonia = result.output.colonia;
+				direccion.ne = result.output.ne;
+				direccion.ni = result.output.ni;
+				
+			}).catch(err => {
+				// ... error checks
+			})
 			
-			res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email});
-			let info = prueba.getClientInfo(req.cookies.user.id);
+			
 			setTimeout(async () =>{
-				console.dir(info);
-				console.log("log: "+info);
-			},2000)
+				let fechan = new Date(Date.parse(cliente.fnacimiento));
+				console.log(fechan)
+				res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email,
+					Pconfianza: cliente.pconfianza,Nombre: cliente.nombre, ApellidoP: cliente.apellidop, 
+					ApellidoM: cliente.apellidom, Celular: cliente.celular, Fnacimiento: fechan,Calle: direccion.calle,
+				Colonia: direccion.colonia, NE: direccion.ne, NI: direccion.ni});
+			},3000)
 		}
 	} catch (err) {
 		console.log(err.message);
@@ -230,9 +277,19 @@ app.get("/error",function(req,res){
 	res.render("pages/error");
 })
 
+function dividirCadena(cadenaADividir,separador) {
+	var arrayDeCadenas = cadenaADividir.split(separador);
+    let a=arrayDeCadenas[0]
+    let b=arrayDeCadenas[1];
+    console.log("Name: "+a);
+    console.log(" Apellido: "+b);
+	return arrayDeCadenas;
+}
+
 app.post("/registro", function(req,res){
 	let pass = req.body.password;
 	let repeat = req.body.repeat;
+	let userID;
 	if(pass !== repeat){
 		res.redirect("registro");
 	}
@@ -243,37 +300,36 @@ app.post("/registro", function(req,res){
 			email: req.body.email,
 			password: ''
 		}
+		let apellidos = dividirCadena(newUser.lastname, " ");
 		password.hashGenerator(pass).then(hash => {
 			newUser.password=''+hash;
 		});
-		// setTimeout(async () => {
-		// 	console.log("Userpass: "+newUser.password)
-		// }, 3000);
-		consultIDs("Clientes");
-		setTimeout(async () => {
-			let id = numIDs;
-			// console.log("new id: "+id);
-			let n=39;
-			let m = String.fromCharCode(n)
-			executeQuery(res,'INSERT INTO dbo.Clientes(ID_Cliente,Nombre,ApellidoP) VALUES ('+id+','+m+newUser.name+m+','+m+newUser.lastname+m+')');
-			console.log("new user registred in Clientes!");
-			executeQuery(res,'INSERT INTO dbo.Usuarios(Email,_Password,ID_Cliente) VALUES ('+m+newUser.email+m+','+m+newUser.password+m+','+id+')');
-			console.log("new user registred in Usuarios!");
-			let userID;
-			prueba.getUserID(email)
+		setTimeout(async() =>{
+			prueba.Agregar_Usuario(newUser.email,newUser.password,newUser.name, apellidos[0], apellidos[1])
 			.then(result => {
-				userID = result.output.ID;
+				console.log("Usuario agregado con exito!");
 			}).catch(err => {
 				// ... error checks
-			})
-			setTimeout(async () => {
-				res.cookie('user',{email:""+email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
-				console.log("Cookie creada!");
-				res.redirect("perfil");
-			}, 2000);
-		}, 4000);
+				console.log("Error al agregar usuario!");
+			},2000);
+			setTimeout(async()=>{
+				
+				prueba.Regresar_IDUsuario(newUser.email)
+				.then(result => {
+					userID = result.output.id;
+				}).catch(err => {
+					// ... error checks
+				})
+				setTimeout(async () => {
+					res.cookie('user',{email:""+newUser.email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
+					console.log("Cookie creada!");
+					res.redirect("perfil");
+				}, 4000);
+			},4000)
+		},2000)
+		
+		
 	}	
-	res.redirect("perfil");
 	
 })
 
@@ -281,10 +337,11 @@ app.post("/login", function(req,res){
 	const pass = req.body.password;
 	const email = req.body.email;
 	let dbUserPassword;
-	userEmail(email) // es una Promesa, podemos usar then() y cacth()
+	prueba.Validar_Usuario(email) // es una Promesa, podemos usar then() y cacth()
 	.then(passwordRecovered => {
 		// console.dir(`El id generado es: ${passwordRecovered}`);
-		dbUserPassword = ''+passwordRecovered;
+		dbUserPassword = ''+passwordRecovered.output.ContraEn;
+		// console.log(dbUserPassword);
 	})
 	.catch(error => {
 		console.log(`Hubo un error`);
@@ -304,22 +361,23 @@ app.post("/login", function(req,res){
 				if(correctPassword===true){
 					console.log("Usuario verificado!");
 					let userID;
-					prueba.getUserID(email)
+					prueba.Regresar_IDUsuario(email)
 					.then(result => {
 						// console.dir(result)
 						// console.log("result: "+result);
-						userID = result.output.ID;
+						userID = result.output.id;
 						// console.log("UserIID: "+userID);
 					}).catch(err => {
 						// ... error checks
 					})
 					setTimeout(async () => {
 						
-						// console.log("userIDI: "+userID)
+						
 						res.cookie('user',{email:""+email, password:""+pass, id: userID},{expire : new Date() + 9999},{ signed: true });
 						console.log("Cookie creada!");
+						// console.log(req.cookies.user)
 						res.redirect("perfil");
-					}, 2000);
+					}, 4000);
 					
 					// const user = {
 					// 	email: email,
@@ -335,7 +393,7 @@ app.post("/login", function(req,res){
 			}, 3000);
 		}
 		
-	}, 4000);
+	}, 3000);
 	
 })
 
@@ -371,9 +429,16 @@ app.post("/perfil", function(req,res){
 		numInt: req.body.numInt,
 		numExt: req.body.numExt,
 		colonia: req.body.colonia,
-		alcaldia: req.body.alcaldia,
-		estado: req.body.estado
+		alcaldia: req.body.alcaldiaChoice,
+		estado: req.body.estadoChoice
 	}
+	console.log(direccionUsuario.estado);
+	console.log(direccionUsuario.alcaldia);
+	console.log("e: "+direccionUsuario.estado+" a: "+direccionUsuario.alcaldia)
+	prueba.ActualizarDatos_Cliente(req.cookies.user.id,direccionUsuario.estado,direccionUsuario.alcaldia,direccionUsuario.colonia,direccionUsuario.calle,direccionUsuario.numExt,direccionUsuario.numInt,userInfo.celular,userInfo.nacimiento,0)
+	setTimeout(async()=>{
+		res.redirect("perfil");
+	},3000)
 })
 
 app.listen(port, () => {

@@ -16,6 +16,7 @@ let Regresar_IDUsuario = async (email) => {
 
 let Regresar_DatosCliente = async (id_cliente) => {
     try {
+        // console.log("Iniciando");
         let pool = await sql.connect(config);
         let result = await pool.request()
             .input('id', sql.Int, id_cliente)
@@ -23,11 +24,33 @@ let Regresar_DatosCliente = async (id_cliente) => {
             .output('nombre', sql.NVarChar(20))
             .output('apellidop', sql.NVarChar(20))
             .output('apellidom', sql.NVarChar(20))
-            .output('celula', sql.BigInt)
+            .output('celular', sql.BigInt)
             .output('fnacimiento', sql.Date)
             .output('pconfianza', sql.Int)
             .execute('Regresar_DatosCliente')
-        console.dir(result);
+        // console.dir(result);
+        // console.log("a ver");
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Regresar_Direccion_Cliente = async (id_cliente) => {
+    try {
+        // console.log("Iniciando");
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id', sql.Int, id_cliente)
+            .output('estado', sql.NVarChar(20))
+            .output('municipio', sql.NVarChar(20))
+            .output('colonia', sql.NVarChar(20))
+            .output('calle', sql.NVarChar(20))
+            .output('ne',  sql.NVarChar(5))
+            .output('ni',  sql.NVarChar(5))
+            .execute('Regresar_Direccion_Cliente')
+        // console.dir(result);
+        // console.log("a ver");
         return result;
     } catch (err) {
         console.dir(err);
@@ -41,7 +64,7 @@ let Validar_Usuario = async (email) => {
             .input('email', sql.NVarChar(20), email)
             .output('ContraEn', sql.NVarChar(61))
             .execute('Validar_Usuario')
-        console.dir(result);
+        // console.log(result);
         return result;
     } catch (err) {
         console.dir(err);
@@ -80,7 +103,7 @@ let ActualizarDatos_Cliente = async (id,estado,municipio,colonia,calle,ne,ni,cel
             .input('fnacimiento', sql.Date,fnacimiento)
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarDatos_Cliente')
-        console.dir(result);
+        // console.dir(result);
         return result;
     } catch (err) {
         console.dir(err);
@@ -254,5 +277,6 @@ module.exports = {
     Asignar_asistencia: Asignar_asistencia,
     Eliminar_Reservacion: Eliminar_Reservacion,
     Eliminar_Usuario:Eliminar_Usuario,
-    Comprobacion_Datos_Registrados: Comprobacion_Datos_Registrados
+    Comprobacion_Datos_Registrados: Comprobacion_Datos_Registrados,
+    Regresar_Direccion_Cliente: Regresar_Direccion_Cliente
 };

@@ -4,35 +4,35 @@
         <div class="perfil-box card-template">
             <img id="logo" class="mb-4" src="img/Coffee Pet-LOGO1.svg" alt="">
             <label class="PDC"><%= username %></label>
-            <label class="PDC">Puntos de confianza: 12</label>
+            <label class="PDC">Puntos de confianza: <%=Pconfianza%></label>
         </div>
         <div class="perfil-info card-template">
-            <form action="/" method="post">
+            <form action="/perfil" method="post">
                 <div class="form-container">
                     <h2 class="">Datos del Cliente: </h2>
                     <div class="input-form s-relative s-mb-2 ">
                         <div class="s-relative s-cross-center">
                             <label class="s-mb-1 s-weight-semibold small">Nombre(s)</label>
-                            <input id="nombres" type="text" name="nombres" class="form-control" placeholder="Andres Rafael" disabled>
+                            <input id="nombres" type="text" name="nombres" class="form-control" placeholder= "<%= Nombre %>"  disabled>
                         </div>
                         <div class="s-relative s-cross-center">
                             <div class="form-small-input">
                                 <label class="s-mb-1 s-weight-semibold small">Apellido Paterno</label>
-                                <input id="apellidoP" type="text" name="apellidoP" class="form-control" placeholder="Escala" disabled>
+                                <input id="apellidoP" type="text" name="apellidoP" class="form-control" placeholder= "<%= ApellidoP%>" disabled>
                             </div>
                             <div class="form-small-input input-right" id="apellidoM">
                                 <label class="s-mb-1 s-weight-semibold small">Apellido Materno</label>
-                                <input id="apellidoM-input" type="text" name="apellidoM" class="form-control" placeholder="Acosta" disabled>
+                                <input id="apellidoM-input" type="text" name="apellidoM" class="form-control" placeholder="<%= ApellidoM%>" disabled>
                             </div>
                         </div>
                         <div class="s-relative s-cross-center">
                             <div class="form-small-input">
                                 <label class="s-mb-1 s-weight-semibold small">Celular</label>
-                                <input id="celular" type="number" name="celular" class="form-control" placeholder="5500000000" required>
+                                <input id="celular" type="number" name="celular" class="form-control" placeholder="<%=Celular%>" required>
                             </div>
                             <div class="form-small-input input-right" id="apellidoM">
                                 <label class="s-mb-1 s-weight-semibold small">Fecha de Nacimiento</label>
-                                <input id="nacimiento-input" type="date" name="nacimiento" class="form-control" placeholder="dd/mm/aa" required>
+                                <input id="nacimiento-input" type="date" name="nacimiento" class="form-control" placeholder="<%=Fnacimiento%>" required>
                             </div>
                         </div>
                     </div>
@@ -42,22 +42,22 @@
                         <div class="s-relative s-cross-center">
                             <div class="form-small-input">
                                 <label class="s-mb-1 s-weight-semibold small">Calle</label>
-                                <input id="calle" type="text" name="calle" class="form-control" placeholder="" required>
+                                <input id="calle" type="text" name="calle" class="form-control" placeholder="<%=Calle%>" required>
                             </div>
                             <div class="form-small-input input-right">
                                 <label class="s-mb-1 s-weight-semibold small">Colonia</label>
-                                <input id="colonia" type="text" name="colonia" class="form-control" placeholder="" required>
+                                <input id="colonia" type="text" name="colonia" class="form-control" placeholder="<%=Colonia%>" required>
                             </div>
                             
                         </div>
                         <div class="s-relative s-cross-center"></div>
                             <div class="form-small-input" id="apellidoM">
                                 <label class="s-mb-1 s-weight-semibold small">Número exterior</label>
-                                <input id="numExt" type="text" name="numExt" class="form-control" placeholder="" required>
+                                <input id="numExt" type="text" name="numExt" class="form-control" placeholder="<%=NE%>" required>
                             </div>
                             <div class="form-small-input input-right">
                                 <label class="s-mb-1 s-weight-semibold small">Número interior</label>
-                                <input id="numInt" type="text" name="numInt" class="form-control" placeholder="" required>
+                                <input id="numInt" type="text" name="numInt" class="form-control" placeholder="<%=NI%>" required>
                             </div>
                         </div>
                         <div class="s-relative s-cross-center">
@@ -89,8 +89,10 @@
                                 <i class="fas fa-arrow-down icon-box"></i>
                             </div>
                             <div id="empty" class="form-small-input">
-                                <p class="choice" id="estadoChoice">Estado</p>
-                                <p class="choice" id="alcaldiaChoice">Alcaldia</p>
+                                <!-- <p class="choice" name="estadoChoice" id="estadoChoice"></p>
+                                <p class="choice" name="alcaldiaChoice" id="alcaldiaChoice"></p> -->
+                                <input class="choice" name="estadoChoice" id="estadoChoice"></input>
+                                <input class="choice" name="alcaldiaChoice" id="alcaldiaChoice"></input>
                             </div>
                         </div>
                     </div>
