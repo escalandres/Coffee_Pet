@@ -441,6 +441,13 @@ app.post("/perfil", function(req,res){
 	},3000)
 })
 
+app.post("/reservacion", function(req,res){
+	const reservacion = {
+		fechaReservacion = req.body.fechaReservacion,
+		mascota = req.body.mascotaChoice
+	}
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 	

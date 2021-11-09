@@ -14,6 +14,19 @@ let Regresar_IDUsuario = async (email) => {
     }
 }
 
+let Regresar_IDMascota = async (nombre) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('nombre', sql.NVarChar(20), nombre)
+            .output('id', sql.Int)
+            .execute('Regresar_IDMascota')
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
 let Regresar_DatosCliente = async (id_cliente) => {
     try {
         // console.log("Iniciando");
@@ -278,5 +291,6 @@ module.exports = {
     Eliminar_Reservacion: Eliminar_Reservacion,
     Eliminar_Usuario:Eliminar_Usuario,
     Comprobacion_Datos_Registrados: Comprobacion_Datos_Registrados,
-    Regresar_Direccion_Cliente: Regresar_Direccion_Cliente
+    Regresar_Direccion_Cliente: Regresar_Direccion_Cliente,
+    Regresar_IDMascota: Regresar_IDMascota
 };
