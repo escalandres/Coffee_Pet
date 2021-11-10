@@ -64,19 +64,19 @@ function selectPet(){
 }
 
 function selectMesa(){
-    let mesaText = ShowText("num-mesa");
+    let mesaText = ShowText("numMesa");
     let choice = document.getElementById("mesaChoice");
     choice.value=""+mesaText;
 }
 
 function selectNumPer(){
-    let mnpText = ShowText("num-personas");
+    let mnpText = ShowText("numPersonas");
     let choice = document.getElementById("numpChoice");
     choice.value=""+mnpText;
 }
 
 function formulario(){
-    let opcion = document.querySelector('input[name="tipo-reservacion"]:checked').value;
+    let opcion = document.querySelector('input[name="tipoReservacion"]:checked').value;
     if(opcion === "mesa"){
         ocultar("paseo-option","paseo-required")
         show("mesa-option","mesa-required")
@@ -92,8 +92,8 @@ function formulario(){
 
 let mesas = [1,4,5,8,9,12,13,16];
 function showMesas(){
-    let numper = ShowSelected("num-personas");
-    let numperText = ShowText("num-personas");
+    let numper = ShowSelected("numPersonas");
+    let numperText = ShowText("numPersonas");
     ocultar1();
     if(numper==1){
         //Aguascaliente

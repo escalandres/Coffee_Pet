@@ -510,3 +510,9 @@ label{
     margin-top: 1.5rem;
     margin-left: 3rem;
 }
+
+.choice{
+    color: #ffffff;
+    border-color: #ffffff;
+    opacity: 0.0;
+}

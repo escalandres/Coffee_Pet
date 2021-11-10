@@ -441,11 +441,67 @@ app.post("/perfil", function(req,res){
 	},3000)
 })
 
+function toDate(dStr,format) {
+	var now = new Date();
+	if (format == "h:m") {
+ 		now.setHours(dStr.substr(0,dStr.indexOf(":")));
+ 		now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
+ 		now.setSeconds(0);
+ 		return now;
+    }// }else 
+	// 	return "Invalid Format";
+}
+
 app.post("/reservacion", function(req,res){
+	let tipoReservacion = req.body.tipoReservacion;
 	const reservacion = {
-		fechaReservacion = req.body.fechaReservacion,
-		mascota = req.body.mascotaChoice
+		fechaReservacion: req.body.fechaReservacion,
+		mascota: req.body.mascotaChoice,
+		tipo: 0,
+		horaInicio: '',
+		horaFin: '',
+		numPersonas: req.body.numPersonas,
+		mesa: req.body.numMesa
 	}
+	reservacion.numPersonas = parseInt(reservacion.numPersonas)
+	reservacion.mesa = parseInt(reservacion.mesa)
+	console.log(tipoReservacion);
+	if(tipoReservacion=="mesa"){
+		reservacion.tipo = 0;
+		reservacion.horaInicio = req.body.hLlegada;
+		reservacion.horaFin = req.body.hSalida;
+	}
+	else{
+		reservacion.tipo = 1;
+		reservacion.horaInicio = req.body.hRecogida;
+		reservacion.horaFin = req.body.hEntregada;
+	}
+	console.log(reservacion.horaInicio);
+	var b = toDate(reservacion.horaInicio,"h:m");
+	var c = toDate(reservacion.horaFin,"h:m")
+	// console.log('hora: '+b.getHours().toString()+':'+b.getMinutes());
+	console.log(b);
+	console.log(c);
+	// console.log(typeof(b))
+
+
+	let fechaExpedicion = new Date();
+	console.log("fecha: "+fechaExpedicion.toLocaleString());
+	let idMascota;
+	prueba.Regresar_IDMascota(reservacion.mascota)
+	.then(id=> {
+		idMascota = ''+id.output.id;
+		// console.log("idMascota: "+idMascota);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+	setTimeout(async()=>{
+		prueba.Agregar_Reservacion(1,req.cookies.user.id,idMascota,reservacion.mesa,reservacion.tipo,fechaExpedicion,reservacion.fechaReservacion,b,c,reservacion.numPersonas);
+		console.log("Reservacion Agregada!");
+	},2000);
+	
+	
 })
 
 app.listen(port, () => {

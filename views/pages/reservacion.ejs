@@ -35,58 +35,56 @@
                 <div class="radio-part">
                     <div class="radio-op">
                         <label for=""> Mesa en cafeteria</label>
-                        <input type="radio" name="tipo-reservacion" value="mesa" id="radio1" onclick="formulario()">
+                        <input type="radio" name="tipoReservacion" value="mesa" id="radio1" onclick="formulario()">
                     </div>
                     <div class="radio-op" id="left-op">
                         <label for="">Paseo de mascota</label>
-                        <input type="radio" name="tipo-reservacion" value="paseo" id="radio2" onclick="formulario()">
+                        <input type="radio" name="tipoReservacion" value="paseo" id="radio2" onclick="formulario()">
                         <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
                     </div>
                 </div>
                 <div class="inputs-op">
                     <div>
                         <label for="">Seleccione una fecha de reservacion</label>
-                        <input id="fechaReservacion" type="date" name="fechaReservacion" class="form-control" placeholder="dd/mm/aa" required>
+                        <input id="fechaReservacion" type="date" name="fechaReservacion" class="form-control" placeholder="dd/mm/aaaa" required>
                     </div>
-                    <div>
+                    <div class="div-section">
                         <label for="">Seleccione una mascota para su reservacion</label>
                         <select class="mascotas-section" name="mascotas" id="mascotas" onchange="selectPet()" required><option value="0">Selecciona</option><option class="" value="1">Minnie</option><option class="" value="2">Bola</option><option class="" value="3">Pelusa</option><option class="" value="4">Maya</option>
                             <option class="" value="5">Mia</option><option class="" value="6">Max</option><option class="" value="7">Mina</option><option class="" value="8">Coco</option><option class="" value="9">Mylo</option><option class="" value="10">Marc</option>
                             <option class="" value="11">Peque</option><option class="" value="12">Larry</option><option class="" value="13">Nala</option><option class="" value="14">Lily</option><option class="" value="15">Tom</option><option class="" value="16">Jack</option>
                             <option class="" value="17">Tyson</option><option class="" value="18">Bruno</option></select>
-                        <input class="mascotas-section" name="mascotaChoice" id="mascotaChoice" readonly></input>
+                        <input class="maschoice" name="mascotaChoice" id="mascotaChoice" readonly></input>
                         </div>
                     <label for="">Seleccione las horas de reservacion</label>
                     <div class="radio-part">
                         
                         <div class="radio-op ocultar mesa-option" id="mesa-option">
                             <label for="">Hora de Llegada</label>
-                            <input class="mesa-required" type="time" id="h-llegada" name="h-llegada" required>
+                            <input class="mesa-required" type="time" id="hLlegada" name="hLlegada" required>
                         </div>
                         <div class="radio-op ocultar mesa-option" id="left-op">
                             <label for="">Hora de Salida</label>
-                            <input class="mesa-required" type="time" id="h-salida" name="h-salida" required>
+                            <input class="mesa-required" type="time" id="hSalida" name="hSalida" required>
                         </div>
                         <div class="radio-op ocultar paseo-option" id="paseo-option">
                             <label for="">Hora de Recogida</label>
-                            <input class="paseo-required" type="time" id="h-recogida" name="h-recogida" required>
+                            <input class="paseo-required" type="time" id="hRecogida" name="hRecogida" required>
                         </div>
                         <div class="radio-op ocultar paseo-option" id="left-op">
                             <label for="">Hora de Entrega</label>
-                            <input class="paseo-required" type="time" id="h-entrega" name="h-entrega" required>
+                            <input class="paseo-required" type="time" id="hEntrega" name="hEntrega" required>
                         </div>
                         <p class="op-info" id="hora-info">Tolerancia de 15 minutos de retraso sin aviso previo</p>
                     </div>
                     <label for="">Seleccione la cantidad de personas y la mesa</label>
                     <div class="radio-part ocultar mesa-option" id="">
                         <label for="">Numero de Personas</label>
-                        <select class="" name="num-personas" id="num-personas" onchange="selectNumPer(),showMesas()" required><option value="0">Selecciona</option><option value="1">1 Persona</option><option value="2">2 Personas</option><option value="3">3 Personas</option><option value="4">4 Personas</option></select>
-                        <input class="" name="numpChoice" id="numpChoice" readonly></input>
+                        <select class="" name="numPersonas" id="numPersonas" onchange="selectNumPer(),showMesas()" required><option value="0">Selecciona</option><option value="1">1 Persona</option><option value="2">2 Personas</option><option value="3">3 Personas</option><option value="4">4 Personas</option></select>
                         <label for="">Mesa</label>
-                        <select class="" name="num-mesa" id="num-mesa" onchange="selectMesa()" required><option value="0">Selecciona</option><option value="1" class="options ocultar">Mesa 1</option><option value="2" class="options ocultar">Mesa 2</option><option value="3" class="options ocultar">Mesa 3</option><option value="4" class="options ocultar">Mesa 4</option><option value="5" class="options ocultar">Mesa 5</option><option value="6" class="options ocultar">Mesa 6</option>
+                        <select class="" name="numMesa" id="numMesa" onchange="selectMesa()" required><option value="0">Selecciona</option><option value="1" class="options ocultar">Mesa 1</option><option value="2" class="options ocultar">Mesa 2</option><option value="3" class="options ocultar">Mesa 3</option><option value="4" class="options ocultar">Mesa 4</option><option value="5" class="options ocultar">Mesa 5</option><option value="6" class="options ocultar">Mesa 6</option>
                             <option value="7" class="options ocultar">Mesa 7</option><option value="8" class="options ocultar">Mesa 8</option><option value="9" class="options ocultar">Mesa 9</option><option value="10" class="options ocultar">Mesa 10</option><option value="11" class="options ocultar">Mesa 11</option><option value="12" class="options ocultar">Mesa 12</option><option value="13" class="options ocultar">Mesa 13</option><option value="14" class="options ocultar">Mesa 14</option>
                             <option value="15" class="options ocultar">Mesa 15</option><option value="16" class="options ocultar">Mesa 16</option></select>
-                        <input class="" name="mesaChoice" id="mesaChoice" readonly></input>
                     </div>
                     <div class="ocultar paseo-option" id="textarea-op">
                         <textarea class="paseo-required" name="" id="" cols="70" rows="10" placeholder="Escribir el plan de salida con la mascota" required></textarea>

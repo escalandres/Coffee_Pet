@@ -122,3 +122,13 @@ label{
     margin-top: 1.5rem;
     margin-left: 3rem;
 }
+
+.maschoice{
+    color: #ffffff;
+    border-color: #ffffff;
+    opacity: 0.0;
+}
+
+/* .div-section{
+    margin-left: -2rem;
+} */
