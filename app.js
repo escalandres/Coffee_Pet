@@ -273,8 +273,20 @@ app.get("/perfil",function(req,res){
 	
 })
 
+app.get("/eliminar-cuenta",function(req,res){
+	res.render("pages/eliminar-cuenta");
+})
+
 app.get("/error",function(req,res){
 	res.render("pages/error");
+})
+
+app.post("/eliminar-cuenta",function(req,res){
+	prueba.Eliminar_Usuario(req.cookies.user.id);
+	setTimeout(async()=>{
+		console.log("Usuario eliminado!");
+		res.redirect("logout");
+	},4000);
 })
 
 function dividirCadena(cadenaADividir,separador) {
@@ -443,7 +455,7 @@ app.post("/perfil", function(req,res){
 
 function toDate(dStr,format) {
 	var now = new Date();
-	if (format == "h:m") {
+	if (format == "hh:mm") {
  		now.setHours(dStr.substr(0,dStr.indexOf(":")));
  		now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
  		now.setSeconds(0);
@@ -476,11 +488,16 @@ app.post("/reservacion", function(req,res){
 		reservacion.horaInicio = req.body.hRecogida;
 		reservacion.horaFin = req.body.hEntregada;
 	}
+
 	console.log(reservacion.horaInicio);
-	var b = toDate(reservacion.horaInicio,"h:m");
-	var c = toDate(reservacion.horaFin,"h:m")
-	// console.log('hora: '+b.getHours().toString()+':'+b.getMinutes());
-	console.log(b);
+	console.log(typeof(reservacion.horaInicio));
+	var b = toDate(reservacion.horaInicio,"hh:mm");
+	var c = toDate(reservacion.horaFin,"hh:mm")
+	console.log(b.getHours()+b.getMinutes());
+	// var x=new Date(b.getHours(),b.getMinutes());
+	// console.log('x: '+x);
+	console.log('hora: '+b.getHours().toString()+':'+b.getMinutes().toString());
+	console.log('Thora: '+b.toTimeString());
 	console.log(c);
 	// console.log(typeof(b))
 
@@ -491,7 +508,7 @@ app.post("/reservacion", function(req,res){
 	prueba.Regresar_IDMascota(reservacion.mascota)
 	.then(id=> {
 		idMascota = ''+id.output.id;
-		// console.log("idMascota: "+idMascota);
+		console.log("idMascota: "+idMascota);
 	})
 	.catch(error => {
 		console.log(`Hubo un error`);

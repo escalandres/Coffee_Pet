@@ -1,0 +1,23 @@
+<%- include("../partials/headerSimple", {page: 'Eliminar Cuenta'}); -%>
+<body>
+    <div class="error-message">
+        <div class="container">
+            <h1 class="display-4">Quiere eliminar su cuenta?</h1>
+            <p class="lead">Una vez que elimine su cuenta no podra recuperar su informacion!</p>
+        </div>
+        <a href="perfil">
+            <button class="trybtn btn btn-lg btn-warning" type="button">Regresar</button>
+            
+        </a>
+        <form action="/eliminar-cuenta" name="yourForm" id="theForm" method="post">    
+            <button class="trybtn btn btn-lg btn-warning" type="submit">Eliminar</button>
+
+        </form>
+
+        <!-- <a href="eliminar-cuenta">
+            
+        </a> -->
+    </div>
+    
+</body>
+</html>

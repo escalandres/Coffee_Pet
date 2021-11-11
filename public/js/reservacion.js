@@ -24,20 +24,15 @@ function show(clase,requerido){
         my_class1[i].setAttribute("required",true);
     }
 }
-// function poner() {
-//     $('#myTest').prop("required", true);
-// }
-// function quitar() {
-//     $('#myTest').removeAttr("required");
-// }
 
 function ocultar(clase,requerido){
     var my_class = document.getElementsByClassName(clase);
     var count = my_class.length;
     var my_class1 = document.getElementsByClassName(requerido);
     for(i=0;i<count;i++){
-        my_class[i].classList.add("ocultar");
         my_class1[i].removeAttribute("required");
+        my_class[i].classList.add("ocultar");
+        
     }
 }
 
@@ -64,8 +59,8 @@ function selectPet(){
 }
 
 function selectMesa(){
-    let mesaText = ShowText("numMesa");
-    let choice = document.getElementById("mesaChoice");
+    let mesaText = ShowText("hLlegada");
+    let choice = document.getElementById("hchoice");
     choice.value=""+mesaText;
 }
 
@@ -77,11 +72,13 @@ function selectNumPer(){
 
 function formulario(){
     let opcion = document.querySelector('input[name="tipoReservacion"]:checked').value;
+    // alert(opcion)
     if(opcion === "mesa"){
         ocultar("paseo-option","paseo-required")
         show("mesa-option","mesa-required")
     }
     else if(opcion === "paseo"){
+        // alert("paseo si")
         ocultar("mesa-option","mesa-required")
         show("paseo-option","paseo-required")
     }

@@ -516,3 +516,10 @@ label{
     border-color: #ffffff;
     opacity: 0.0;
 }
+
+#btnEliminarCuenta{
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
