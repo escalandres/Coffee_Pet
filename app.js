@@ -8,18 +8,17 @@ const sql = require('mssql')
 const port = 3001;
 const admin = require("./adminconfig");
 const fs = require("fs");
-const password = require("./passwordGenerator");
-const passwCheck = require("./passwordCheck");
+const passwordManager = require("./passwordManager");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const app = express();
 const prueba = require("./consultasDB");
+const cookieSession = require('cookie-session');
+const opciones = require("./opciones");
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-const cookieSession = require('cookie-session');
-let resultIDs;
-let numIDs=0;
+
 let key = process.env.CLIENT_SECRET;
 let logAdmin = false;
 let sessionAdmin = 0;
@@ -289,14 +288,14 @@ app.post("/eliminar-cuenta",function(req,res){
 	},4000);
 })
 
-function dividirCadena(cadenaADividir,separador) {
-	var arrayDeCadenas = cadenaADividir.split(separador);
-    let a=arrayDeCadenas[0]
-    let b=arrayDeCadenas[1];
-    console.log("Name: "+a);
-    console.log(" Apellido: "+b);
-	return arrayDeCadenas;
-}
+// function dividirCadena(cadenaADividir,separador) {
+// 	var arrayDeCadenas = cadenaADividir.split(separador);
+//     let a=arrayDeCadenas[0]
+//     let b=arrayDeCadenas[1];
+//     console.log("Name: "+a);
+//     console.log(" Apellido: "+b);
+// 	return arrayDeCadenas;
+// }
 
 app.post("/registro", function(req,res){
 	let pass = req.body.password;
@@ -312,8 +311,8 @@ app.post("/registro", function(req,res){
 			email: req.body.email,
 			password: ''
 		}
-		let apellidos = dividirCadena(newUser.lastname, " ");
-		password.hashGenerator(pass).then(hash => {
+		let apellidos = opciones.dividirCadena(newUser.lastname, " ");
+		passwordManager.hashGenerator(pass).then(hash => {
 			newUser.password=''+hash;
 		});
 		setTimeout(async() =>{
@@ -365,7 +364,7 @@ app.post("/login", function(req,res){
 		}
 		else{
 			let correctPassword;
-			passwCheck.passwordChecker(pass,dbUserPassword).then(v => {
+			passwordManager.passwordChecker(pass,dbUserPassword).then(v => {
 				// console.log("v: "+v);
 				correctPassword=v;
 			});
@@ -453,16 +452,16 @@ app.post("/perfil", function(req,res){
 	},3000)
 })
 
-function toDate(dStr,format) {
-	var now = new Date();
-	if (format == "hh:mm") {
- 		now.setHours(dStr.substr(0,dStr.indexOf(":")));
- 		now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
- 		now.setSeconds(0);
- 		return now;
-    }// }else 
-	// 	return "Invalid Format";
-}
+// function toDate(dStr,format) {
+// 	var now = new Date();
+// 	if (format == "hh:mm") {
+//  		now.setHours(dStr.substr(0,dStr.indexOf(":")));
+//  		now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
+//  		now.setSeconds(0);
+//  		return now;
+//     }// }else 
+// 	// 	return "Invalid Format";
+// }
 
 app.post("/reservacion", function(req,res){
 	let tipoReservacion = req.body.tipoReservacion;
@@ -491,8 +490,8 @@ app.post("/reservacion", function(req,res){
 
 	console.log(reservacion.horaInicio);
 	console.log(typeof(reservacion.horaInicio));
-	var b = toDate(reservacion.horaInicio,"hh:mm");
-	var c = toDate(reservacion.horaFin,"hh:mm")
+	var b = opciones.toDate(reservacion.horaInicio,"hh:mm");
+	var c = opciones.toDate(reservacion.horaFin,"hh:mm");
 	console.log(b.getHours()+b.getMinutes());
 	// var x=new Date(b.getHours(),b.getMinutes());
 	// console.log('x: '+x);

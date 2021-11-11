@@ -21,6 +21,9 @@ function show(clase,requerido){
     var my_class1 = document.getElementsByClassName(requerido);
     for(i=0;i<count;i++){
         my_class[i].classList.remove("ocultar");
+    }
+    var count1 = my_class1.length;
+    for(i=0;i<count1;i++){
         my_class1[i].setAttribute("required",true);
     }
 }
@@ -29,8 +32,11 @@ function ocultar(clase,requerido){
     var my_class = document.getElementsByClassName(clase);
     var count = my_class.length;
     var my_class1 = document.getElementsByClassName(requerido);
-    for(i=0;i<count;i++){
+    var count1 = my_class1.length;
+    for(i=0;i<count1;i++){
         my_class1[i].removeAttribute("required");
+    }
+    for(i=0;i<count;i++){
         my_class[i].classList.add("ocultar");
         
     }

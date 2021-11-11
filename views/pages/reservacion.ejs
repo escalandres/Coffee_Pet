@@ -54,7 +54,7 @@
                             <option class="" value="5">Mia</option><option class="" value="6">Max</option><option class="" value="7">Nina</option><option class="" value="8">Coco</option><option class="" value="9">Mylo</option><option class="" value="10">Marc</option>
                             <option class="" value="11">Peque</option><option class="" value="12">Larry</option><option class="" value="13">Nala</option><option class="" value="14">Lily</option><option class="" value="15">Tom</option><option class="" value="16">Jack</option>
                             <option class="" value="17">Tyson</option><option class="" value="18">Bruno</option></select>
-                        <input class="maschoice" name="mascotaChoice" id="mascotaChoice" readonly></input>
+                        <input class="mchoice" name="mascotaChoice" id="mascotaChoice" readonly></input>
                         </div>
                     <label for="">Seleccione las horas de reservacion</label>
                     <div class="radio-part">
@@ -84,16 +84,16 @@
                         </div> -->
                         <p class="op-info" id="hora-info">Tolerancia de 15 minutos de retraso sin aviso previo</p>
                     </div>
-                    <label class="radio-part ocultar mesa-option" for="">Seleccione la cantidad de personas y la mesa</label>
-                    <div class="radio-part ocultar mesa-option" id="">
-                        <label for="">Numero de Personas</label>
+                    <label class=" ocultar mesa-option" for="">Seleccione la cantidad de personas y la mesa</label>
+                    <div class="radio-op radio-part ocultar mesa-option" id="">
+                        <label class="" for="">Numero de Personas</label>
                         <select class="" name="numPersonas" id="numPersonas" onchange="showMesas()" required><option value="0">Selecciona</option><option value="1">1 Persona</option><option value="2">2 Personas</option><option value="3">3 Personas</option><option value="4">4 Personas</option></select>
-                        <label for="">Mesa</label>
+                        <label id="left-op" for="">Mesa</label>
                         <select class="" name="numMesa" id="numMesa" onchange="" required><option value="0">Selecciona</option><option value="1" class="options ocultar">Mesa 1</option><option value="2" class="options ocultar">Mesa 2</option><option value="3" class="options ocultar">Mesa 3</option><option value="4" class="options ocultar">Mesa 4</option><option value="5" class="options ocultar">Mesa 5</option><option value="6" class="options ocultar">Mesa 6</option>
                             <option value="7" class="options ocultar">Mesa 7</option><option value="8" class="options ocultar">Mesa 8</option><option value="9" class="options ocultar">Mesa 9</option><option value="10" class="options ocultar">Mesa 10</option><option value="11" class="options ocultar">Mesa 11</option><option value="12" class="options ocultar">Mesa 12</option><option value="13" class="options ocultar">Mesa 13</option><option value="14" class="options ocultar">Mesa 14</option>
                             <option value="15" class="options ocultar">Mesa 15</option><option value="16" class="options ocultar">Mesa 16</option></select>
                     </div>
-                    <div class="ocultar paseo-option" id="textarea-op">
+                    <div class="radio-op radio-part ocultar paseo-option" id="textarea-op">
                         <textarea class="paseo-required" name="" id="" cols="70" rows="10" placeholder="Escribir el plan de salida con la mascota" required></textarea>
                     </div>
                 </div>

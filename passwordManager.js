@@ -20,4 +20,30 @@ async function passwordChecker(userPassword,dbPassword) {
 	// console.log('result:'+result);
 	return cllave;
 }
-exports.passwordChecker = passwordChecker;
+
+function geners1(pass){
+	return new Promise(resolve => {
+		setTimeout(async() => {
+			const palabraSecretaTextoPlano = ''+pass;
+			const rondasDeSal = 10;
+			const palabraSecretaEncriptada = await bcrypt.hash(palabraSecretaTextoPlano, rondasDeSal);
+			// console.log("palabra: "+palabraSecretaEncriptada);
+			resolve(''+palabraSecretaEncriptada);
+		}, 1000);
+	});
+}
+
+async function hashGenerator(pass) {
+	let cllave='';
+	// console.log('calling');
+	const result = await geners1(pass);
+	cllave=result;
+	console.log(result);
+	return cllave;
+}
+
+module.exports = {
+	hashGenerator: hashGenerator,
+	passwordChecker: passwordChecker
+}
+
