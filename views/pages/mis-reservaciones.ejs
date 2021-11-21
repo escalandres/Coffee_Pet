@@ -1,0 +1,50 @@
+<%- include("../partials/userHeader", {page: 'Mis reservaciones'}); -%>
+
+<div>
+    <table align="center" >
+        <!-- <thead>Tabla</thead> -->
+        <!-- <caption>Ejemplo de tabla</caption> -->
+        <thead>
+            <tr>
+                <th>ID Reservacion</th>
+                <th>ID Mascota</th>
+                <th>Mesa</th>
+                <th>Personas</th>
+                <th>Servicio</th>
+                <th>Fecha</th>
+                <th>Hora inicio</th>
+                <th>Hora final</th>
+                <th>Mascota</th>
+            </tr>
+        </thead>
+        <tbody id="reservaciones" name="reservaciones">
+            <tr>
+                <%for (let i=0;i<Size;i++){%>
+                    <tr>
+                        <%for (let j=0;j<9;j++){%>
+                            <td><%=results[i][j]%></td>
+                        <%}%>  
+                    </tr>
+                      
+                <%}%>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <button type="button" onclick="Agregar_Tabla()"></button> -->
+</div>
+
+<!-- <ul>
+    <%for (var result in results){%>
+      <li><%=result%>:<%=results[result]%></li>    
+      <%}%>
+    </ul>
+
+    <p><%=results[0][7]%></p> -->
+<script>
+    var fila="<tr><td>"+id+"</td><td>"+mascota+"</td><td>"+mesa+"</td><td>"+personas+"</td><td>"+_servicio+"</td><td>"+fecha+"</td><td>"+horainicio+"</td><td>"+horafinal+"</td></tr>";
+
+var btn = document.createElement("TR");
+   btn.innerHTML=fila;
+document.getElementById("reservaciones").appendChild(btn);
+</script>
+<%- include("../partials/footer"); -%>

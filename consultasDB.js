@@ -8,7 +8,7 @@ let Regresar_IDUsuario = async (email) => {
             .input('email', sql.NVarChar(30), email)
             .output('id', sql.Int)
             .execute('Regresar_IDUsuario')
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -21,7 +21,20 @@ let Regresar_IDMascota = async (nombre) => {
             .input('nombre', sql.NVarChar(20), nombre)
             .output('id', sql.Int)
             .execute('Regresar_IDMascota')
-        return result;
+        pool.close(); return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Mis_Reservaciones = async (id) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_cliente', sql.Int, id)
+            .execute('Mis_Reservaciones')
+        // console.dir(result);
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -43,7 +56,7 @@ let Regresar_DatosCliente = async (id_cliente) => {
             .execute('Regresar_DatosCliente')
         // console.dir(result);
         // console.log("a ver");
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -64,7 +77,7 @@ let Regresar_Direccion_Cliente = async (id_cliente) => {
             .execute('Regresar_Direccion_Cliente')
         // console.dir(result);
         // console.log("a ver");
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -78,7 +91,7 @@ let Validar_Usuario = async (email) => {
             .output('ContraEn', sql.NVarChar(61))
             .execute('Validar_Usuario')
         // console.log(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -95,7 +108,7 @@ let Agregar_Usuario = async (email,password,name,lastname1,lastname2) => {
             .input('apellidom', sql.NVarChar(20),lastname2)
             .execute('Agregar_Usuario')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -117,7 +130,7 @@ let ActualizarDatos_Cliente = async (id,estado,municipio,colonia,calle,ne,ni,cel
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarDatos_Cliente')
         // console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -131,7 +144,7 @@ let ActualizarPConfianza = async (id, pconfianza) => {
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarPConfianza')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -146,7 +159,7 @@ let Agregar_Empleado = async (nombre, apellidop,apellidom) => {
             .input('apellidom', sql.NVarChar(20),apellidom)
             .execute('Agregar_Empleado')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -161,7 +174,7 @@ let Agregar_Mesa = async (idMesa, nasientos,ocupado) => {
             .input('ocupado', sql.Bit,ocupado)
             .execute('Agregar_Mesa')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -177,7 +190,7 @@ let Agregar_EspecieRaza = async (especie, raza, alimentacion, ) => {
             .input('esperanzavida', sql.Int,esperanzavida)
             .execute('Agregar_EspecieRaza')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -192,7 +205,7 @@ let Agregar_Mascota = async (fk_Id_EspecieRaza, nombre, fcumpleaños) => {
             .input('fcumpleaños', sql.Date,fcumpleaños)
             .execute('Agregar_Mascota')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -214,7 +227,7 @@ let Agregar_Reservacion = async (fk_Id_Empleado,fk_Id_Cliente,fk_Id_Mascota,fk_I
             .input('numeropersonas', sql.Int,numeropersonas)
             .execute('Agregar_Reservacion')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -229,7 +242,7 @@ let Asignar_asistencia = async (id, horallegada, asistencia) => {
             .input('asistencia', sql.Bit,asistencia)
             .execute('Asignar_asistencia')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -242,7 +255,7 @@ let Eliminar_Reservacion = async (idreservacion) => {
             .input('idreservacion', sql.Int, idreservacion)
             .execute('Eliminar_Reservacion')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -255,7 +268,7 @@ let Eliminar_Usuario = async (id) => {
             .input('id', sql.Int, id)
             .execute('Eliminar_Usuario')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -269,7 +282,7 @@ let Comprobacion_Datos_Registrados = async (id) => {
             .output('resultado', sql.Bit)
             .execute('Comprobacion_Datos_Registrados')
         console.dir(result);
-        return result;
+        pool.close(); return result;
     } catch (err) {
         console.dir(err);
     }
@@ -292,5 +305,6 @@ module.exports = {
     Eliminar_Usuario:Eliminar_Usuario,
     Comprobacion_Datos_Registrados: Comprobacion_Datos_Registrados,
     Regresar_Direccion_Cliente: Regresar_Direccion_Cliente,
-    Regresar_IDMascota: Regresar_IDMascota
+    Regresar_IDMascota: Regresar_IDMascota,
+    Mis_Reservaciones: Mis_Reservaciones
 };

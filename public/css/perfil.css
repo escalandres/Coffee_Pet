@@ -1,3 +1,10 @@
+#btnEliminarCuenta{
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
 /*Nav Bar section*/
 
 .logo{
@@ -517,9 +524,22 @@ label{
     opacity: 0.0;
 }
 
-#btnEliminarCuenta{
-    font-size: 14px;
-    font-weight: 700;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+/* Mis reservaciones section */
+
+table{
+    margin-top: 2rem;
+    border: 1px solid;
+    border-radius: 80%;
+    
+    color:rgba(70, 73, 75, 0.767);
+}
+
+tr{
+    border: 1px solid;
+}
+th,td{
+    text-align:center;
+    border: 1px solid;
+    padding: 1rem 1.5rem;
+    border-color:rgba(70, 73, 75, 0.623);
 }

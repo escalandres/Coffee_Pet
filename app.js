@@ -15,6 +15,7 @@ const app = express();
 const prueba = require("./consultasDB");
 const cookieSession = require('cookie-session');
 const opciones = require("./opciones");
+// const reservaciones = require("./mis-reservaciones");
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -138,6 +139,87 @@ app.get("/reservacion",function(req,res){
 	
 })
 
+app.get("/mis-reservaciones",function(req,res){
+	
+	prueba.Mis_Reservaciones(req.cookies.user.id)
+	.then(result => {
+		// console.dir(result)
+		// console.log(result.recordset[1])
+		// console.log("Size: "+result.recordset.length)
+		let size = result.recordset.length;
+		// console.log(result.recordset[1].ID_Reservacion)
+		// console.log(result.recordset[1].HoraFin.toLocaleTimeString())
+		// console.log(result.recordset[1].FechaReservacion.toLocaleDateString())
+		// console.log(result.recordset[1].ServicioLocal)
+		// console.log(typeof(result.recordset[1].ServicioLocal))
+		let rese = new Array(result.recordset.length);
+		for(let h=0;h<result.recordset.length;h++){
+			rese[h] = new Array(9);
+		}
+		for(let i=0;i<result.recordset.length;i++){
+			//console.log("I: "+i);
+			for(let j=0;j<9;j++){
+				//console.log("J: "+j)
+				if(j===0){
+					//console.log("++0: ")
+					rese[i][j]=result.recordset[i].ID_Reservacion;
+				}
+				else if(j===1){
+					//console.log("++1: ")
+					rese[i][j]=result.recordset[i].FK_ID_Mascota;
+				}
+				else if(j===2){
+					//console.log("++2: ")
+					rese[i][j]=result.recordset[i].FK_ID_Mesa;
+				}
+				else if(j===3){
+					//console.log("++3: ")
+					rese[i][j]=result.recordset[i].NumPersonas;
+				}
+				else if(j===4){
+					//console.log("++4: ")
+					
+					if(result.recordset[i].ServicioLocal===false){
+						rese[i][j]="Cafeteria";
+					}
+					else{
+						rese[i][j]="Paseo";
+					}
+				}
+				else if(j===5){
+					//console.log("++5: ")
+					rese[i][j]=result.recordset[i].FechaReservacion.toLocaleDateString();
+				}
+				else if(j===6){
+					//console.log("++6: ")
+					rese[i][j]=result.recordset[i].HoraInicio.toLocaleTimeString();
+				}
+				else if(j===7){
+					//console.log("++7: ")
+					rese[i][j]=result.recordset[i].HoraFin.toLocaleTimeString();
+				}
+				else{
+					//console.log("++8: ")
+					rese[i][j]=result.recordset[i].Nombre;
+				}
+			}
+		}
+		// console.log(typeof(rese));
+		// console.log("listo");
+		// for(let p=0;p<result.recordset.length;p++){
+		// 	for(let q=0;q<9;q++){
+		// 		console.log(rese[p][q]);
+		// 	}
+		// 	console.log("\n");
+		// }
+		setTimeout(async()=>{
+			res.render("pages/mis-reservaciones",{Name: req.cookies.user.email,results: rese,Size:size});
+		},4000)
+	}).catch(err => {
+		// ... error checks
+	})
+	           
+})
 
 app.get("/login-admin",function(req,res){
 	try {
@@ -194,9 +276,7 @@ app.get("/admin",function(req,res){
 app.get("/perfil",function(req,res){
 	try {
 		if(req.cookies.user === undefined){
-			// console.log("Error fn");
-			// res.render("pages/perfil",{Name: 'Invalido', username: 'Invalido', Pconfianza: 'Invalido',Nombre: 'Invalido', ApellidoP: 'Invalido', ApellidoM: 'Invalido', Celular: 'Invalido', Fnacimiento: '01-01-1999'});
-			// res.redirect("error");
+			res.redirect("error");
 		}
 		else{
 			const cliente = {
