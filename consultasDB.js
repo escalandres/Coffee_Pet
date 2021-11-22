@@ -248,11 +248,12 @@ let Asignar_asistencia = async (id, horallegada, asistencia) => {
     }
 }
 
-let Eliminar_Reservacion = async (idreservacion) => {
+let Eliminar_Reservacion = async (idreservacion,idcliente) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .input('idreservacion', sql.Int, idreservacion)
+            .input('idcliente', sql.Int, idcliente)
             .execute('Eliminar_Reservacion')
         console.dir(result);
         pool.close(); return result;
@@ -287,6 +288,23 @@ let Comprobacion_Datos_Registrados = async (id) => {
         console.dir(err);
     }
 }
+
+let Obtener_HoraFechaReservacion = async (idreservacion,idcliente) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('idreservacion', sql.Int, idreservacion)
+            .input('idcliente', sql.Int, idcliente)
+            .output('horainicio', sql.DateTime)
+            .output('fechareservacion', sql.Date)
+            .execute('Obtener_HoraFechaReservacion')
+        console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
 // exports.getUserID = getUserID;
 module.exports = {
     Regresar_IDUsuario: Regresar_IDUsuario,
@@ -306,5 +324,6 @@ module.exports = {
     Comprobacion_Datos_Registrados: Comprobacion_Datos_Registrados,
     Regresar_Direccion_Cliente: Regresar_Direccion_Cliente,
     Regresar_IDMascota: Regresar_IDMascota,
-    Mis_Reservaciones: Mis_Reservaciones
+    Mis_Reservaciones: Mis_Reservaciones,
+    Obtener_HoraFechaReservacion: Obtener_HoraFechaReservacion
 };

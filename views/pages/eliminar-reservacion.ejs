@@ -1,0 +1,33 @@
+<%- include("../partials/headerSimple", {page: 'Eliminar Reservacion'}); -%>
+<body>
+    <div class="error-message">
+        <div class="container">
+            <h1 class="display-4">Cancelar reservacion</h1>
+            <p class="lead">Las reservaciones se pueden cancelar hasta maximo 3 horas antes de la hora marcada!</p>
+            <form action="/eliminar-reservacion" method="post">   
+                <div>
+                    <label for="">Ingrese el ID de la reservacion que desea cancelar</label>
+                    <input type="number" name="idre" id="idre"  placeholder="ID reservacion" required>
+                </div> 
+                <button class="trybtn btn btn-lg btn-warning" type="submit">Cancelar reservacion</button>
+    
+            </form>
+            
+            
+        </div>
+        <div>
+            <a href="mis-reservaciones">
+                <button class="trybtn btn btn-lg btn-warning" type="button">Regresar</button>
+                
+            </a>
+            
+        </div>
+        
+
+        <!-- <a href="eliminar-cuenta">
+            
+        </a> -->
+    </div>
+    
+</body>
+</html>

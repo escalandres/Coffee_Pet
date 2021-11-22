@@ -30,8 +30,9 @@
             </tr>
         </tbody>
     </table>
-    <!-- <button type="button" onclick="Agregar_Tabla()"></button> -->
+    
 </div>
+<a href="eliminar-reservacion"><button class="btn btn-lg btn-primary" id="mis-reservaciones-btn" type="button" >Cancelar Reservacion</button></a>
 
 <!-- <ul>
     <%for (var result in results){%>
@@ -40,11 +41,5 @@
     </ul>
 
     <p><%=results[0][7]%></p> -->
-<script>
-    var fila="<tr><td>"+id+"</td><td>"+mascota+"</td><td>"+mesa+"</td><td>"+personas+"</td><td>"+_servicio+"</td><td>"+fecha+"</td><td>"+horainicio+"</td><td>"+horafinal+"</td></tr>";
 
-var btn = document.createElement("TR");
-   btn.innerHTML=fila;
-document.getElementById("reservaciones").appendChild(btn);
-</script>
 <%- include("../partials/footer"); -%>

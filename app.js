@@ -356,6 +356,10 @@ app.get("/eliminar-cuenta",function(req,res){
 	res.render("pages/eliminar-cuenta");
 })
 
+app.get("/eliminar-reservacion",function(req,res){
+	res.render("pages/eliminar-reservacion");
+})
+
 app.get("/error",function(req,res){
 	res.render("pages/error");
 })
@@ -366,6 +370,72 @@ app.post("/eliminar-cuenta",function(req,res){
 		console.log("Usuario eliminado!");
 		res.redirect("logout");
 	},4000);
+})
+
+app.post("/eliminar-reservacion",function(req,res){
+	let idreservacion = req.body.idre;
+	let horainicio, fechareservacion
+	let fechaHoy = new Date();
+	let hoy = fechaHoy.toLocaleDateString()
+	let tiempo = fechaHoy.toLocaleTimeString()
+	prueba.Obtener_HoraFechaReservacion(idreservacion,req.cookies.user.id)
+	.then(result => {
+		console.dir(result)
+		horainicio = result.output.horainicio;
+		fechareservacion = result.output.fechareservacion;
+	}).catch(err => {
+		// ... error checks
+	})
+	setTimeout(async()=>{
+		console.log("DBFR: "+fechareservacion)
+		console.log("HIDB: "+horainicio)
+		fechareservacion = fechareservacion.toLocaleDateString();
+		horainicio = horainicio.toLocaleTimeString();
+		console.log("horainicio: "+horainicio+" fechareservacion: "+fechareservacion)
+		if(hoy<fechareservacion){
+			prueba.Eliminar_Reservacion(idreservacion,req.cookies.user.id)
+			.then(result => {
+
+			}).catch(err =>{
+
+			})
+			setTimeout(async()=>{
+				console.log("Reservacion cancelada!");
+				res.redirect("mis-reservaciones");
+			},3000)
+		}
+		else if(hoy==fechareservacion){
+			if(tiempo<horainicio){
+				console.log("Es menor")
+				let te = parseInt(tiempo);
+				let hi = parseInt(horainicio);
+				console.log(te-hi)
+				if(te-hi<=-3){
+					console.log("Si se puede cancelar la reservacion")
+					prueba.Eliminar_Reservacion(idreservacion,req.cookies.user.id)
+					.then(result => {
+
+					}).catch(err =>{
+
+					})
+					setTimeout(async()=>{
+						console.log("Reservacion cancelada!");
+						res.redirect("mis-reservaciones");
+					},3000)
+				}
+				else{
+					console.log("No se puede cancelar la reservacion")
+				}
+			}
+			else{
+				console.log("No se puede cancelar la reservacion")
+			}
+		}
+		else{
+			console.log("No se puede cancelar la reservacion")
+		}
+		
+	},2000);
 })
 
 // function dividirCadena(cadenaADividir,separador) {
