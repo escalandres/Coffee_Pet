@@ -1,13 +1,127 @@
-<%- include("../partials/headerSimple", {page:'Admin'}); -%>
-<div>
-    <div>
-        <h1>Estas en el admin</h1>
+<%- include("../partials/admin-header", {page:'Admin'}); -%>
+<!-- Nav-bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#reservaciones">Reservaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#mascotas">Mascotas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#empleados">Empleados</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" id="perfil-options" href="../perfil"><i class="fas fa-user"></i>     Mi perfil</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" id="perfil-logout" href="../logout"><i class="fas fa-sign-out-alt"></i>  Cerrar sesion</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-    <a href="logout-admin">
-        <button>Logout</button>
-    </a>
-</div>
+</nav>
+<section id="reservacion">
+    <h1>Validar Reservacion</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese los datos de la reservacion</h2>
+            <label for="">ID</label>
+            <input type="number" name="especie" id="especie">
+            <label for="">Nombre del Cliente</label>
+            <input type="text" name="especie-raza" id="especie-raza">
 
-<%- include("../partials/footer"); -%>
 
+            <label for="">Ingrese el numero del empleado</label>
+            <input type="text" name="especie-alimentacion" id="especie-alimentacion">
+            <label for="">Asistencia</label>
+            <div class="radio-part">
+                <div class="">
+                    <label for="">Si</label>
+                    <input type="radio" name="asistencia" value="1" id="radio1" onclick="">
+                </div>
+                <div class="" id="left-op">
+                    <label for="">No</label>
+                    <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
+                    <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
+                </div>
+            </div>
+        </div>
+        <button type="submit">Agregar Especie</button>
+    </form>
+</section>
+<section id="mascotas">
+    <h1>Agregar Especie</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese los datos de la nueva raza</h2>
+            <label for="">Especie</label>
+            <input type="text" name="especie" id="especie">
+            <label for="">Raza</label>
+            <input type="text" name="especie-raza" id="especie-raza">
+            <label for="">Alimentacion</label>
+            <input type="text" name="especie-alimentacion" id="especie-alimentacion">
+            <label for="">Esperanza de vida</label>
+            <input type="number" name="especie-tiempo" id="especie-tiempo" placeholder="En años">
+        </div>
+        <button type="submit">Agregar Especie</button>
+    </form>
+    <h1>Agregar Mascota</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese los datos del Empleado</h2>
+            <label for="">Nombre</label>
+            <input type="text" name="mascota-name" id="mascota-name" placeholder="Maximo 10 caracteres">
+            <label for="">Fecha de cumpleaños</label>
+            <input type="date" name="mascota-birthday" id="mascota-birthday">
+            <label for="">Especie</label>
+            <select name="espcie-select" id="espcie-select"><option value="0">Seleccione</option><option value="1">Perro</option><option value="2">Gato</option><option value="3">Ave</option><option value="4">Hamster</option><option value="5">Conejo</option></select>
+            <input type="text" name="mascota-birthday" id="mascota-birthday">
+        </div>
+        <button type="submit">Agregar</button>
+    </form>
+    <h1>Eliminar Mascota</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese el nombre de la mascota</h2>
+            <label for="">Nombre: </label>
+            <input type="text" name="mascota-dname" id="mascota-dname">
+            <button type="submit">Eliminar</button>
+        </div>
+        
+    </form>
+</section>
+<section id="empleados">
+    <h1>Agregar Empleado</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese los datos del Empleado</h2>
+            <label for="">Nombres</label>
+            <input type="text" name="empleado-name" id="empleado-name">
+            <label for="">Apellidos</label>
+            <input type="text" name="empleado-lastname" id="empleado-lastname">
+        </div>
+        <button type="submit">Agregar</button>
+    </form>
+    <h1>Eliminar Empleado</h1>
+    <form action="" method="post">
+        <div>
+            <h2>Ingrese el ID del empleado</h2>
+            <label for="">ID: </label>
+            <input type="text" name="empleado-id" id="empleado-id">
+            <button type="submit">Eliminar</button>
+        </div>
+        
+    </form>
+</section>
 

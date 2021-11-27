@@ -36,6 +36,14 @@ p {
     margin-top: 2rem;
     margin-left: 30rem;
 }
+#idre{
+    margin: 1rem 2rem 1rem 0;
+}
+.return-btn{
+    position: relative;
+    margin-top: 2rem;
+    margin-left: 8rem;
+}
 /* h1{
 
 } */

@@ -259,13 +259,14 @@ app.get("/logout",function(req,res){
 
 app.get("/admin",function(req,res){
 	try {
-		if(logAdmin === true && sessionAdmin === 0){
-			res.render("pages/admin");
-			sessionAdmin = 1;
-		}
-		else{
-			res.redirect("error");
-		}
+		// if(logAdmin === true && sessionAdmin === 0){
+		// 	res.render("pages/admin");
+		// 	sessionAdmin = 1;
+		// }
+		// else{
+		// 	res.redirect("error");
+		// }
+		res.render("pages/admin");
 	} catch (err) {
 		console.log(err.message);
 		res.redirect("error");
@@ -325,7 +326,6 @@ app.get("/perfil",function(req,res){
 			
 			setTimeout(async () =>{
 				let fechan = new Date(Date.parse(cliente.fnacimiento));
-				console.log(fechan)
 				res.render("pages/perfil",{Name: req.cookies.user.email, username: req.cookies.user.email,
 					Pconfianza: cliente.pconfianza,Nombre: cliente.nombre, ApellidoP: cliente.apellidop, 
 					ApellidoM: cliente.apellidom, Celular: cliente.celular, Fnacimiento: fechan,Calle: direccion.calle,
@@ -387,11 +387,11 @@ app.post("/eliminar-reservacion",function(req,res){
 		// ... error checks
 	})
 	setTimeout(async()=>{
-		console.log("DBFR: "+fechareservacion)
-		console.log("HIDB: "+horainicio)
+		// console.log("DBFR: "+fechareservacion)
+		// console.log("HIDB: "+horainicio)
 		fechareservacion = fechareservacion.toLocaleDateString();
 		horainicio = horainicio.toLocaleTimeString();
-		console.log("horainicio: "+horainicio+" fechareservacion: "+fechareservacion)
+		// console.log("horainicio: "+horainicio+" fechareservacion: "+fechareservacion)
 		if(hoy<fechareservacion){
 			prueba.Eliminar_Reservacion(idreservacion,req.cookies.user.id)
 			.then(result => {
@@ -559,10 +559,11 @@ app.post("/login", function(req,res){
 })
 
 app.post("/login-admin", function(req, res){
-	if(logAdmin === true){
-		res.redirect("error");
-	}
-	else{
+	// if(logAdmin === true){
+
+	// 	// res.redirect("error");
+	// }
+	// else{
 		const user = {
 			username: req.body.username,
 			password: req.body.password,
@@ -576,7 +577,7 @@ app.post("/login-admin", function(req, res){
 		else{
 			res.redirect("error");
 		}
-	}
+	// }
 	
 });
 
