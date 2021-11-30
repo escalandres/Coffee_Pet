@@ -200,7 +200,7 @@ app.get("/mis-reservaciones",function(req,res){
 				}
 				else{
 					//console.log("++8: ")
-					rese[i][j]=result.recordset[i].Nombre;
+					rese[i][j]=result.recordset[i].Mascota_ombre;
 				}
 			}
 		}
@@ -259,6 +259,8 @@ app.get("/logout",function(req,res){
 
 app.get("/admin",function(req,res){
 	try {
+		let empleados,mascotas;
+		let esize, msize, rsize;
 		// if(logAdmin === true && sessionAdmin === 0){
 		// 	res.render("pages/admin");
 		// 	sessionAdmin = 1;
@@ -266,7 +268,91 @@ app.get("/admin",function(req,res){
 		// else{
 		// 	res.redirect("error");
 		// }
-		res.render("pages/admin");
+		prueba.Mostrar_Empleados()
+		.then(result => {
+			esize = result.recordset.length;
+			empleados = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				empleados[h] = new Array(4);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<4;j++){
+					if(j===0){
+						empleados[i][j]=result.recordset[i].ID_Empleado;
+					}
+					else if(j===1){
+						empleados[i][j]=result.recordset[i].Nombre;
+					}
+					else if(j===2){
+						empleados[i][j]=result.recordset[i].ApellidoP;
+					}
+					else{
+						empleados[i][j]=result.recordset[i].ApellidoM;
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+		prueba.Mostrar_Mascotas()
+		.then(result => {
+			msize = result.recordset.length;
+			mascotas = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				mascotas[h] = new Array(4);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<4;j++){
+					if(j===0){
+						mascotas[i][j]=result.recordset[i].ID_Mascota;
+					}
+					else if(j===1){
+						mascotas[i][j]=result.recordset[i].FK_ID_EspecieRaza;
+					}
+					else if(j===2){
+						mascotas[i][j]=result.recordset[i].Mascota_Nombre;
+					}
+					else{
+						mascotas[i][j]=result.recordset[i].FechaCumpleanos.toLocaleDateString();
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+		prueba.Mostrar_Razas()
+		.then(result => {
+			rsize = result.recordset.length;
+			razas = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				razas[h] = new Array(5);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<5;j++){
+					if(j===0){
+						razas[i][j]=result.recordset[i].ID_EspecieRaza;
+					}
+					else if(j===1){
+						razas[i][j]=result.recordset[i].Especie;
+					}
+					else if(j===2){
+						razas[i][j]=result.recordset[i].Raza;
+					}
+					else if(j===3){
+						razas[i][j]=result.recordset[i].Alimentacion;
+					}
+					else{
+						razas[i][j]=result.recordset[i].EsperanzaVida+" años";
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+
+		setTimeout(async()=>{
+			res.render("pages/admin",{empleados: empleados,esize:esize,mascotas: mascotas,msize:msize, razas:razas, rsize: rsize});
+		},4000);
 	} catch (err) {
 		console.log(err.message);
 		res.redirect("error");
@@ -650,8 +736,6 @@ app.post("/reservacion", function(req,res){
 	console.log('Thora: '+b.toTimeString());
 	console.log(c);
 	// console.log(typeof(b))
-
-
 	let fechaExpedicion = new Date();
 	console.log("fecha: "+fechaExpedicion.toLocaleString());
 	let idMascota;
@@ -669,6 +753,91 @@ app.post("/reservacion", function(req,res){
 	},2000);
 	
 	
+})
+
+app.post("/admin-Agregar_Mascota",function(req,res){
+	let especie_id = req.body.especie_id;
+	let nombre = req.body.mascota_name;
+	let fcumple = req.body.mascota_birthday;
+	prueba.Agregar_Mascota(especie_id,nombre,fcumple)
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+})
+
+app.post("/admin-Agregar_Especie",function(req,res){
+	let especie = req.body.especie;
+	let raza = req.body.especie_raza;
+	let	alimentacion = req.body.especie_alimentacion;
+	let esperanzavida = req.body.especie_esperanza;
+	prueba.Agregar_EspecieRaza(especie,raza,alimentacion,esperanzavida)
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+})
+
+app.post("/admin-Agregar_Empleado",function(req,res){
+	let empleado_name = req.body.empleado_name;
+	let empleado_lastname = req.body.empleado_lastname;
+	empleado_lastname = opciones.dividirCadena(empleado_lastname, " ");
+	prueba.Agregar_Empleado(empleado_name,empleado_lastname[0],empleado_lastname[1])
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+})
+
+app.post("/admin-Eliminar_Empleado",function(req,res){
+	let id_empleado = req.body.empleado_id;
+	prueba.Eliminar_Empleados(id_empleado)
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+})
+
+app.post("/admin-Eliminar_Mascota",function(req,res){
+	let id_mascota = req.body.mascota_id;
+	prueba.Eliminar_Mascotas(id_mascota)
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
+})
+
+app.post("/admin-Eliminar_Especie",function(req,res){
+	let id_raza = req.body.especie_id;
+	prueba.Eliminar_Razas(id_raza)
+	.then(id=> {
+		setTimeout(async()=>{
+			res.redirect("admin");
+		},2000);
+	})
+	.catch(error => {
+		console.log(`Hubo un error`);
+	});
 })
 
 app.listen(port, () => {

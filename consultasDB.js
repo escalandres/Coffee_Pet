@@ -180,7 +180,7 @@ let Agregar_Mesa = async (idMesa, nasientos,ocupado) => {
     }
 }
 
-let Agregar_EspecieRaza = async (especie, raza, alimentacion, ) => {
+let Agregar_EspecieRaza = async (especie, raza, alimentacion, esperanzavida ) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
@@ -305,6 +305,100 @@ let Obtener_HoraFechaReservacion = async (idreservacion,idcliente) => {
         console.dir(err);
     }
 }
+let Mostrar_Mascotas = async () => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .execute('Mostrar_Mascotas')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+let Mostrar_Empleados = async () => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .execute('Mostrar_Empleados')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+let Mostrar_Razas = async () => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .execute('Mostrar_Razas')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+let Reservacion_Cliente = async (id_reservacion,nombre,apellidop,apellidom) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_reservacion', sql.Int, id_reservacion)
+            .input('nombre_cliente', sql.NVarChar(20), nombre)
+            .input('apellidop_cliente', sql.NVarChar(20), apellidop)
+            .input('apellidom_cliente', sql.NVarChar(20), apellidom)
+            .execute('Reservacion_Cliente')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Eliminar_Empleados = async (id_empleado) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_empleado', sql.Int, id_empleado)
+            .execute('Eliminar_Empleados')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Eliminar_Mascotas = async (id_mascota) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_mascota', sql.Int, id_mascota)
+            .execute('Eliminar_Mascota')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Eliminar_Razas = async (id_raza) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_raza', sql.Int, id_raza)
+            .execute('Eliminar_Razas')
+        // console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
 // exports.getUserID = getUserID;
 module.exports = {
     Regresar_IDUsuario: Regresar_IDUsuario,
@@ -325,5 +419,12 @@ module.exports = {
     Regresar_Direccion_Cliente: Regresar_Direccion_Cliente,
     Regresar_IDMascota: Regresar_IDMascota,
     Mis_Reservaciones: Mis_Reservaciones,
-    Obtener_HoraFechaReservacion: Obtener_HoraFechaReservacion
+    Obtener_HoraFechaReservacion: Obtener_HoraFechaReservacion,
+    Mostrar_Empleados: Mostrar_Empleados,
+    Mostrar_Mascotas: Mostrar_Mascotas,
+    Mostrar_Razas: Mostrar_Razas,
+    Reservacion_Cliente: Reservacion_Cliente,
+    Eliminar_Razas: Eliminar_Razas,
+    Eliminar_Mascotas: Eliminar_Mascotas,
+    Eliminar_Empleados: Eliminar_Empleados
 };

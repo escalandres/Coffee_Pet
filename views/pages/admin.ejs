@@ -1,125 +1,231 @@
 <%- include("../partials/admin-header", {page:'Admin'}); -%>
 <!-- Nav-bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#reservaciones">Reservaciones</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#mascotas">Mascotas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#empleados">Empleados</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" id="perfil-options" href="../perfil"><i class="fas fa-user"></i>     Mi perfil</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" id="perfil-logout" href="../logout"><i class="fas fa-sign-out-alt"></i>  Cerrar sesion</a></li>
+<section class="color-section">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#reservaciones">Reservaciones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#mascotas">Mascotas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#empleados">Empleados</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  @Admin
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" id="perfil-options" href="#"><i class="fas fa-user"></i>     Mi perfil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" id="perfil-logout" href="../logout"><i class="fas fa-sign-out-alt"></i>  Cerrar sesion</a></li>
+                </ul>
+              </li>
             </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav>
-<section id="reservacion">
-    <h1>Validar Reservacion</h1>
+          </div>
+        </div>
+    </nav>
+</section>
+
+<section id="reservacion-section" class="sections">
+    <h1>Reservaciones</h1>
+    <h2>Validar Reservacion</h2>
     <form action="" method="post">
         <div>
             <h2>Ingrese los datos de la reservacion</h2>
-            <label for="">ID</label>
-            <input type="number" name="especie" id="especie">
-            <label for="">Nombre del Cliente</label>
-            <input type="text" name="especie-raza" id="especie-raza">
-
-
-            <label for="">Ingrese el numero del empleado</label>
-            <input type="text" name="especie-alimentacion" id="especie-alimentacion">
-            <label for="">Asistencia</label>
-            <div class="radio-part">
-                <div class="">
-                    <label for="">Si</label>
-                    <input type="radio" name="asistencia" value="1" id="radio1" onclick="">
+            <form name="buscar_reservacion" action="/admin-buscar_reservacion">
+                <div>
+                    <label for="">ID</label>
+                    <input type="number" name="especie" id="especie">
+                    <label for="">Nombre del Cliente</label>
+                    <input type="text" name="especie-raza" id="especie-raza">
+                    <button class="btn btn-primary">Buscar</button>
                 </div>
-                <div class="" id="left-op">
-                    <label for="">No</label>
-                    <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
-                    <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
+            </form>
+            
+            <div>
+                <label for="">Ingrese el numero del empleado</label>
+                <input type="text" name="especie-alimentacion" id="especie-alimentacion">
+                <label for="">Asistencia</label>
+                <div class="radio-part">
+                    <div class="">
+                        <label for="">Si</label>
+                        <input type="radio" name="asistencia" value="1" id="radio1" onclick="">
+                    </div>
+                    <div class="" id="left-op">
+                        <label for="">No</label>
+                        <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
+                        <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Agregar Re</button>
+    </form>
+</section>
+<section id="mascotas-section" class="sections">
+    <h1>Mascotas</h1>
+    <h3>Tabla Mascotas</h3>
+    <table align="center" >
+        <!-- <caption>Ejemplo de tabla</caption> -->
+        <thead>
+            <tr>
+                <th>ID Mascota</th>
+                <th>ID Especie</th>
+                <th>Nombre</th>
+                <th>Fecha de Cumpleanos</th>
+            </tr>
+        </thead>
+        <tbody id="mascotas" name="mascotas">
+            <tr>
+                <%for (let i=0;i<msize;i++){%>
+                    <tr>
+                        <%for (let j=0;j<4;j++){%>
+                            <td><%=mascotas[i][j]%></td>
+                        <%}%>  
+                    </tr>
+                      
+                <%}%>
+            </tr>
+        </tbody>
+    </table>
+    <h3>Tabla Especies</h3>
+    <table align="center" >
+        <thead>
+            <tr>
+                <th>ID Especie-Raza</th>
+                <th>Especie</th>
+                <th>Raza</th>
+                <th>Alimentacion</th>
+                <th>Esperanza de Vida</th>
+            </tr>
+        </thead>
+        <tbody id="razas" name="razas">
+            <tr>
+                <%for (let i=0;i<rsize;i++){%>
+                    <tr>
+                        <%for (let j=0;j<5;j++){%>
+                            <td><%=razas[i][j]%></td>
+                        <%}%>  
+                    </tr>
+                      
+                <%}%>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Agregar Especie</h2>
+    <form action="/admin-Agregar_Especie" method="post">
+        <div>
+            <h4>Ingrese los datos de la nueva raza</h4>
+            <div class="double-container">
+                <div class="input-container">
+                    <label for="">Especie</label>
+                    <input type="text" name="especie" id="especie" placeholder="Perro, gato, ...">
+                </div>
+                <div class="input-container">
+                    <label for="">Raza</label>
+                    <input type="text" name="especie_raza" id="especie_raza" placeholder="Pastor, ...">
+                </div>
+            </div>
+            <div class="double-container">
+                <div class="input-container">
+                    <label for="">Alimentacion</label>
+                    <input type="text" name="especie_alimentacion" id="especie_alimentacion" placeholder="Omnivoro, ...">
+                </div>
+                <div class="input-container">
+                    <label for="">Esperanza de vida</label>
+                    <input type="number" name="especie_esperanza" id="especie_esperanza" placeholder="En años">
                 </div>
             </div>
         </div>
-        <button type="submit">Agregar Especie</button>
+        <button class="btn btn-lg btn-primary" type="submit">Agregar Especie</button>
     </form>
-</section>
-<section id="mascotas">
-    <h1>Agregar Especie</h1>
-    <form action="" method="post">
+    <h2>Agregar Mascota</h2>
+    <form action="/admin-Agregar_Mascota" method="post">
         <div>
-            <h2>Ingrese los datos de la nueva raza</h2>
-            <label for="">Especie</label>
-            <input type="text" name="especie" id="especie">
-            <label for="">Raza</label>
-            <input type="text" name="especie-raza" id="especie-raza">
-            <label for="">Alimentacion</label>
-            <input type="text" name="especie-alimentacion" id="especie-alimentacion">
-            <label for="">Esperanza de vida</label>
-            <input type="number" name="especie-tiempo" id="especie-tiempo" placeholder="En años">
-        </div>
-        <button type="submit">Agregar Especie</button>
-    </form>
-    <h1>Agregar Mascota</h1>
-    <form action="" method="post">
-        <div>
-            <h2>Ingrese los datos del Empleado</h2>
+            <h4>Ingrese los datos de la mascota</h4>
             <label for="">Nombre</label>
-            <input type="text" name="mascota-name" id="mascota-name" placeholder="Maximo 10 caracteres">
+            <input type="text" name="mascota_name" id="mascota_name" placeholder="Maximo 10 caracteres">
             <label for="">Fecha de cumpleaños</label>
-            <input type="date" name="mascota-birthday" id="mascota-birthday">
-            <label for="">Especie</label>
-            <select name="espcie-select" id="espcie-select"><option value="0">Seleccione</option><option value="1">Perro</option><option value="2">Gato</option><option value="3">Ave</option><option value="4">Hamster</option><option value="5">Conejo</option></select>
-            <input type="text" name="mascota-birthday" id="mascota-birthday">
+            <input type="date" name="mascota_birthday" id="mascota_birthday">
+            <label for="">Especie-Raza</label>
+            <input type="number" name="especie_id" id="especie_id" placeholder="Revisar la tabla de arriba">
         </div>
-        <button type="submit">Agregar</button>
+        <button class="btn btn-primary" type="submit">Agregar</button>
     </form>
-    <h1>Eliminar Mascota</h1>
-    <form action="" method="post">
+    <h2>Eliminar Mascota</h2>
+    <form action="/admin-Eliminar_Mascota" method="post">
         <div>
-            <h2>Ingrese el nombre de la mascota</h2>
-            <label for="">Nombre: </label>
-            <input type="text" name="mascota-dname" id="mascota-dname">
-            <button type="submit">Eliminar</button>
+            <h4>Ingrese el ID de la mascota</h4>
+            <label for="">ID: </label>
+            <input type="number" name="mascota_id" id="mascota_id">
+            <button class="btn btn-lg btn-primary" type="submit">Eliminar Mascota</button>
+        </div>
+        
+    </form>
+    <h2>Eliminar Especie</h2>
+    <form action="/admin-Eliminar_Especie" method="post">
+        <div>
+            <h4>Ingrese el ID de la Especie-Raza</h4>
+            <label for="">ID: </label>
+            <input type="number" name="especie_id" id="especie_id">
+            <button class="btn btn-lg btn-primary" type="submit">Eliminar Especie-Raza</button>
         </div>
         
     </form>
 </section>
-<section id="empleados">
-    <h1>Agregar Empleado</h1>
-    <form action="" method="post">
+<section id="empleados-section" class="sections">
+    <h1>Empleados</h1>
+    <table align="center" >
+        <!-- <thead>Tabla</thead> -->
+        <!-- <caption>Ejemplo de tabla</caption> -->
+        <thead>
+            <tr>
+                <th>ID Reservacion</th>
+                <th>Nombre(s)</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+            </tr>
+        </thead>
+        <tbody id="empleados" name="empleados">
+            <tr>
+                <%for (let i=0;i<esize;i++){%>
+                    <tr>
+                        <%for (let j=0;j<4;j++){%>
+                            <td><%=empleados[i][j]%></td>
+                        <%}%>  
+                    </tr>
+                      
+                <%}%>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Agregar Empleado</h2>
+    <form action="/admin-Agregar_Empleado" method="post">
         <div>
-            <h2>Ingrese los datos del Empleado</h2>
+            <h4>Ingrese los datos del Empleado</h4>
             <label for="">Nombres</label>
-            <input type="text" name="empleado-name" id="empleado-name">
+            <input type="text" name="empleado_name" id="empleado_name" placeholder="Andres Rafael">
             <label for="">Apellidos</label>
-            <input type="text" name="empleado-lastname" id="empleado-lastname">
+            <input type="text" name="empleado_lastname" id="empleado_lastname" placeholder="Escala Acosta">
         </div>
-        <button type="submit">Agregar</button>
+        <button class="btn btn-lg btn-primary" type="submit">Agregar Empleado</button>
     </form>
-    <h1>Eliminar Empleado</h1>
-    <form action="" method="post">
+    <h2>Eliminar Empleado</h2>
+    <form action="/admin-Eliminar_Empleado" method="post">
         <div>
-            <h2>Ingrese el ID del empleado</h2>
+            <h4>Ingrese el ID del empleado</h4>
             <label for="">ID: </label>
-            <input type="text" name="empleado-id" id="empleado-id">
-            <button type="submit">Eliminar</button>
+            <input type="number" name="empleado_id" id="empleado_id">
+            <button class="btn btn-lg btn-primary" type="submit">Eliminar Empleado</button>
         </div>
         
     </form>
