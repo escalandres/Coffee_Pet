@@ -200,7 +200,7 @@ app.get("/mis-reservaciones",function(req,res){
 				}
 				else{
 					//console.log("++8: ")
-					rese[i][j]=result.recordset[i].Mascota_ombre;
+					rese[i][j]=result.recordset[i].Mascota_Nombre;
 				}
 			}
 		}
@@ -259,7 +259,7 @@ app.get("/logout",function(req,res){
 
 app.get("/admin",function(req,res){
 	try {
-		let empleados,mascotas;
+		let empleados,mascotas,razas;
 		let esize, msize, rsize;
 		// if(logAdmin === true && sessionAdmin === 0){
 		// 	res.render("pages/admin");
@@ -349,9 +349,8 @@ app.get("/admin",function(req,res){
 		}).catch(err => {
 			// ... error checks
 		})
-
 		setTimeout(async()=>{
-			res.render("pages/admin",{empleados: empleados,esize:esize,mascotas: mascotas,msize:msize, razas:razas, rsize: rsize});
+			res.render("pages/admin",{empleados: empleados,esize:esize,mascotas: mascotas,msize:msize, razas:razas, rsize: rsize,reservacion_cliente: "",resersize: 0});
 		},4000);
 	} catch (err) {
 		console.log(err.message);
@@ -524,15 +523,6 @@ app.post("/eliminar-reservacion",function(req,res){
 	},2000);
 })
 
-// function dividirCadena(cadenaADividir,separador) {
-// 	var arrayDeCadenas = cadenaADividir.split(separador);
-//     let a=arrayDeCadenas[0]
-//     let b=arrayDeCadenas[1];
-//     console.log("Name: "+a);
-//     console.log(" Apellido: "+b);
-// 	return arrayDeCadenas;
-// }
-
 app.post("/registro", function(req,res){
 	let pass = req.body.password;
 	let repeat = req.body.repeat;
@@ -689,17 +679,6 @@ app.post("/perfil", function(req,res){
 	},3000)
 })
 
-// function toDate(dStr,format) {
-// 	var now = new Date();
-// 	if (format == "hh:mm") {
-//  		now.setHours(dStr.substr(0,dStr.indexOf(":")));
-//  		now.setMinutes(dStr.substr(dStr.indexOf(":")+1));
-//  		now.setSeconds(0);
-//  		return now;
-//     }// }else 
-// 	// 	return "Invalid Format";
-// }
-
 app.post("/reservacion", function(req,res){
 	let tipoReservacion = req.body.tipoReservacion;
 	const reservacion = {
@@ -711,18 +690,17 @@ app.post("/reservacion", function(req,res){
 		numPersonas: req.body.numPersonas,
 		mesa: req.body.numMesa
 	}
+	reservacion.horaInicio = req.body.hLlegada;
+	reservacion.horaFin = req.body.hSalida;
 	reservacion.numPersonas = parseInt(reservacion.numPersonas)
 	reservacion.mesa = parseInt(reservacion.mesa)
 	console.log(tipoReservacion);
 	if(tipoReservacion=="mesa"){
 		reservacion.tipo = 0;
-		reservacion.horaInicio = req.body.hLlegada;
-		reservacion.horaFin = req.body.hSalida;
+		
 	}
 	else{
 		reservacion.tipo = 1;
-		reservacion.horaInicio = req.body.hRecogida;
-		reservacion.horaFin = req.body.hEntregada;
 	}
 
 	console.log(reservacion.horaInicio);
@@ -838,6 +816,158 @@ app.post("/admin-Eliminar_Especie",function(req,res){
 	.catch(error => {
 		console.log(`Hubo un error`);
 	});
+})
+
+app.post("/admin-buscar_reservacion",function(req,res){
+	let id_reservacion = req.body.id_reservacion;
+	let nombre_cliente = req.body.nombre_cliente;
+	let nombre = opciones.dividirCadena(nombre_cliente, " ");
+	let empleados,mascotas,razas,rese;
+	let esize, msize, rsize,reservacion_size;
+	prueba.Reservacion_Cliente(id_reservacion,nombre[0]+" "+nombre[1],nombre[2], nombre[3])
+	.then(result => {
+		reservacion_size = result.recordset.length;
+		rese = new Array(result.recordset.length);
+		for(let h=0;h<result.recordset.length;h++){
+			rese[h] = new Array(9);
+		}
+		for(let i=0;i<result.recordset.length;i++){
+			for(let j=0;j<9;j++){
+				if(j===0){
+					rese[i][j]=result.recordset[i].ID_Reservacion;
+				}
+				else if(j===1){
+					rese[i][j]=result.recordset[i].Nombre+" "+result.recordset[i].ApellidoP+" "+result.recordset[i].ApellidoM;
+				}
+				else if(j===2){
+					rese[i][j]=result.recordset[i].Mascota_Nombre;
+				}
+				else if(j===3){
+					if(result.recordset[i].ServicioLocal===false){
+						rese[i][j]="Cafeteria";
+					}
+					else{
+						rese[i][j]="Paseo";
+					}
+				}
+				else if(j===4){
+					rese[i][j]=result.recordset[i].FK_ID_Mesa;
+				}
+				else if(j===5){
+					rese[i][j]=result.recordset[i].NumPersonas;
+				}
+				else if(j===6){
+					rese[i][j]=result.recordset[i].FechaReservacion.toLocaleDateString();
+				}
+				else if(j===7){
+					rese[i][j]=result.recordset[i].HoraInicio.toLocaleTimeString();
+				}
+				else{
+					rese[i][j]=result.recordset[i].HoraFin.toLocaleTimeString();
+				}
+			}
+		}
+	}).catch(err => {
+		// ... error checks
+	})
+	prueba.Mostrar_Empleados()
+		.then(result => {
+			esize = result.recordset.length;
+			empleados = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				empleados[h] = new Array(4);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<4;j++){
+					if(j===0){
+						empleados[i][j]=result.recordset[i].ID_Empleado;
+					}
+					else if(j===1){
+						empleados[i][j]=result.recordset[i].Nombre;
+					}
+					else if(j===2){
+						empleados[i][j]=result.recordset[i].ApellidoP;
+					}
+					else{
+						empleados[i][j]=result.recordset[i].ApellidoM;
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+		prueba.Mostrar_Mascotas()
+		.then(result => {
+			msize = result.recordset.length;
+			mascotas = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				mascotas[h] = new Array(4);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<4;j++){
+					if(j===0){
+						mascotas[i][j]=result.recordset[i].ID_Mascota;
+					}
+					else if(j===1){
+						mascotas[i][j]=result.recordset[i].FK_ID_EspecieRaza;
+					}
+					else if(j===2){
+						mascotas[i][j]=result.recordset[i].Mascota_Nombre;
+					}
+					else{
+						mascotas[i][j]=result.recordset[i].FechaCumpleanos.toLocaleDateString();
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+		prueba.Mostrar_Razas()
+		.then(result => {
+			rsize = result.recordset.length;
+			razas = new Array(result.recordset.length);
+			for(let h=0;h<result.recordset.length;h++){
+				razas[h] = new Array(5);
+			}
+			for(let i=0;i<result.recordset.length;i++){
+				for(let j=0;j<5;j++){
+					if(j===0){
+						razas[i][j]=result.recordset[i].ID_EspecieRaza;
+					}
+					else if(j===1){
+						razas[i][j]=result.recordset[i].Especie;
+					}
+					else if(j===2){
+						razas[i][j]=result.recordset[i].Raza;
+					}
+					else if(j===3){
+						razas[i][j]=result.recordset[i].Alimentacion;
+					}
+					else{
+						razas[i][j]=result.recordset[i].EsperanzaVida+" años";
+					}
+				}
+			}
+		}).catch(err => {
+			// ... error checks
+		})
+		setTimeout(async()=>{
+			res.render("pages/admin",{empleados: empleados,esize:esize,mascotas: mascotas,msize:msize, razas:razas, rsize: rsize,reservacion_cliente: rese,resersize: reservacion_size});
+		},4000);
+})
+
+app.post("/admin-validar_reservacion",function(req,res){
+	let id_reservacion = req.body.id_reservacion;
+	let id_empleado = req.body.num_empleado;
+	let asistencia = req.body.asistencia;
+	let horaAsistencia = new Date();
+	let horaActual = ""+horaAsistencia.getHours().toString()+':'+horaAsistencia.getMinutes().toString();
+	var b = opciones.toDate(horaActual,"hh:mm");
+	console.log(asistencia)
+	prueba.Asignar_asistencia(id_reservacion,id_empleado,b,asistencia);
+	setTimeout(async()=>{
+		res.redirect("admin");
+	},2000);
 })
 
 app.listen(port, () => {

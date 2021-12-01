@@ -233,11 +233,12 @@ let Agregar_Reservacion = async (fk_Id_Empleado,fk_Id_Cliente,fk_Id_Mascota,fk_I
     }
 }
 
-let Asignar_asistencia = async (id, horallegada, asistencia) => {
+let Asignar_asistencia = async (id, id_empleado,horallegada, asistencia) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .input('id', sql.Int, id)
+            .input('id_empleado', sql.Int, id_empleado)
             .input('horallegada', sql.Time, horallegada)
             .input('asistencia', sql.Bit,asistencia)
             .execute('Asignar_asistencia')
@@ -349,7 +350,7 @@ let Reservacion_Cliente = async (id_reservacion,nombre,apellidop,apellidom) => {
             .input('nombre_cliente', sql.NVarChar(20), nombre)
             .input('apellidop_cliente', sql.NVarChar(20), apellidop)
             .input('apellidom_cliente', sql.NVarChar(20), apellidom)
-            .execute('Reservacion_Cliente')
+            .execute('Reservacion_cliente')
         // console.dir(result);
         pool.close(); 
         return result;
@@ -399,6 +400,7 @@ let Eliminar_Razas = async (id_raza) => {
         console.dir(err);
     }
 }
+
 // exports.getUserID = getUserID;
 module.exports = {
     Regresar_IDUsuario: Regresar_IDUsuario,
@@ -426,5 +428,6 @@ module.exports = {
     Reservacion_Cliente: Reservacion_Cliente,
     Eliminar_Razas: Eliminar_Razas,
     Eliminar_Mascotas: Eliminar_Mascotas,
-    Eliminar_Empleados: Eliminar_Empleados
+    Eliminar_Empleados: Eliminar_Empleados,
+    Reservacion_Cliente: Reservacion_Cliente
 };

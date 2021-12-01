@@ -85,7 +85,8 @@ h4{
 table{
     margin-top: 2rem;
     border: 1px solid;
-    color:rgba(70, 73, 75, 0.767);
+    color:rgba(70, 73, 75, 0.836);
+    background-color: white;
 }
 
 tr{
@@ -143,4 +144,33 @@ label{
 #navbarDropdown{
     color: white;
     font-weight: 600;
+}
+
+.reservacion-tabla{
+    margin-bottom: 4rem;
+}
+
+.radio-part{
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+    margin-left: 5rem;
+}
+.radio-op{
+    margin-left: 2rem;
+    margin-top: 0rem;
+    margin-right: 2rem;
+    float: left;
+}
+
+#btn-validar{
+    margin-left: 9rem;
+    margin-top: 0rem;
+}
+
+.asistencia-reservacion{
+    margin-top: 1rem;
+}
+
+#reservacion_cliente{
+    width: 90%;
 }

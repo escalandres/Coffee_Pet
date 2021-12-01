@@ -37,39 +37,72 @@
 <section id="reservacion-section" class="sections">
     <h1>Reservaciones</h1>
     <h2>Validar Reservacion</h2>
-    <form action="" method="post">
-        <div>
-            <h2>Ingrese los datos de la reservacion</h2>
-            <form name="buscar_reservacion" action="/admin-buscar_reservacion">
-                <div>
-                    <label for="">ID</label>
-                    <input type="number" name="especie" id="especie">
-                    <label for="">Nombre del Cliente</label>
-                    <input type="text" name="especie-raza" id="especie-raza">
-                    <button class="btn btn-primary">Buscar</button>
-                </div>
-            </form>
-            
+    <div>
+        <h4>Ingrese los datos de la reservacion</h4>
+        <form name="buscar_reservacion" action="/admin-buscar_reservacion" method="post">
             <div>
+                <label for="">ID de la Reservacion</label>
+                <input type="number" name="id_reservacion" id="id_reservacion" value="0">
+                <label for="">Nombre del Cliente</label>
+                <input type="text" name="nombre_cliente" id="nombre_cliente" placeholder="Nombre(s) y Apellidos">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </form>
+        <div class="reservacion-tabla">
+            <table id="reservacion_cliente" name="reservacion_cliente" align="center" >
+                <thead>
+                    <tr>
+                        <th>ID Reservacion</th>
+                        <th>Cliente</th>
+                        <th>Mascota</th>
+                        <th>Tipo de Servicio</th>
+                        <th>Mesa</th>
+                        <th>Personas</th>
+                        <th>Fecha de Reservacion</th>
+                        <th>Hora Inicio</th>
+                        <th>Hora Final</th>
+                    </tr>
+                </thead>
+                <tbody id="reservacion_cliente" name="reservacion_cliente">
+                    <tr>
+                        <%for (let i=0;i<resersize;i++){%>
+                            <tr>
+                                <%for (let j=0;j<9;j++){%>
+                                    <td><%=reservacion_cliente[i][j]%></td>
+                                <%}%>  
+                            </tr>
+                                
+                        <%}%>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div>
+            <form action="/admin-validar_reservacion" method="post">
+                <label for="">ID de la Reservacion</label>
+                <input type="number" name="id_reservacion" id="id_reservacion" value="0">
                 <label for="">Ingrese el numero del empleado</label>
-                <input type="text" name="especie-alimentacion" id="especie-alimentacion">
-                <label for="">Asistencia</label>
-                <div class="radio-part">
-                    <div class="">
-                        <label for="">Si</label>
-                        <input type="radio" name="asistencia" value="1" id="radio1" onclick="">
-                    </div>
-                    <div class="" id="left-op">
-                        <label for="">No</label>
-                        <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
-                        <p class="op-info" id="">Debe tener mas de 100 puntos de confianza para la opcion de paseo</p>
+                <input type="number" name="num_empleado" id="num_empleado" placeholder="ID del empleado">
+                <div class="asistencia-reservacion">
+                    <label for="">Asistencia</label>
+                    <div class="radio-part">
+                        <div class="radio-op">
+                            <label for="">Si</label>
+                            <input type="radio" name="asistencia" value="1" id="radio1" onclick="">
+                        </div>
+                        <div class="radio-op" id="left-op">
+                            <label for="">No</label>
+                            <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
+                        </div>
+                        <button type="submit" id="btn-validar" class="btn btn-primary">Validar</button>
+
                     </div>
                 </div>
-            </div>
-            
+            </form>            
         </div>
-        <button class="btn btn-lg btn-primary" type="submit">Agregar Re</button>
-    </form>
+        
+    </div>
 </section>
 <section id="mascotas-section" class="sections">
     <h1>Mascotas</h1>
@@ -165,7 +198,7 @@
     <form action="/admin-Eliminar_Mascota" method="post">
         <div>
             <h4>Ingrese el ID de la mascota</h4>
-            <label for="">ID: </label>
+            <label for="">ID Mascota: </label>
             <input type="number" name="mascota_id" id="mascota_id">
             <button class="btn btn-lg btn-primary" type="submit">Eliminar Mascota</button>
         </div>
@@ -175,7 +208,7 @@
     <form action="/admin-Eliminar_Especie" method="post">
         <div>
             <h4>Ingrese el ID de la Especie-Raza</h4>
-            <label for="">ID: </label>
+            <label for="">ID Especie-Raza: </label>
             <input type="number" name="especie_id" id="especie_id">
             <button class="btn btn-lg btn-primary" type="submit">Eliminar Especie-Raza</button>
         </div>
@@ -223,7 +256,7 @@
     <form action="/admin-Eliminar_Empleado" method="post">
         <div>
             <h4>Ingrese el ID del empleado</h4>
-            <label for="">ID: </label>
+            <label for="">ID Empleado: </label>
             <input type="number" name="empleado_id" id="empleado_id">
             <button class="btn btn-lg btn-primary" type="submit">Eliminar Empleado</button>
         </div>
