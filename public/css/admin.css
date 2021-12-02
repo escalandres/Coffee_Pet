@@ -174,3 +174,7 @@ label{
 #reservacion_cliente{
     width: 90%;
 }
+
+#admin-logout{
+    color: #ff4c68;
+}
