@@ -1,4 +1,85 @@
 <%- include("../partials/userHeader", {page:'Pets'}); -%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+<div class="pets-page">
+    <div id="pets-carousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="pet-image" src="img/pets/American wirehair.jpg" alt="Minnie">
+        </div>
+        <div class="carousel-item">
+            <img class="pet-image" src="img/pets/cocker-spaniel.jpg" alt="Mia">
+        </div>
+        <div class="carousel-item">
+            <img class="pet-image" src="img/pets/Conejo holandés enano.jpg" alt="Bola">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/dachshund.jpg" alt="Max">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/gato_naranja.jpg" alt="Nina">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/gigante_continental.jpg" alt="Coco">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/golden.jpg" alt="Mylo">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/guacamaya.jpg" alt="Marc">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/Hámster enano de Campbell.jpg" alt="Pelusa">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/hamster-sirio.jpg" alt="Peque">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/loro.jpg" alt="Larry">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/maltes.jpg" alt="Nala">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/persablanco.jpg" alt="Lily">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/persaplatiano.jpg" alt="Tom">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/pug.jpg" alt="Jack">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/puppy.jpg" alt="Tyson">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/scottish-fold.jpg" alt="Bruno">
+        </div>
+        <div class="carousel-item">
+            <img class="d-block pet-image" src="img/pets/Siberiano_gato.jpg" alt="Maya">
+        </div>
+        </div>
+        <button class="carousel-control-prev carousel-btn" type="button" data-bs-target="#pets-carousel1" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next carousel-btn" type="button" data-bs-target="#pets-carousel1" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        <button id="btn-pet" class="btn btn-primary" type="button" onclick="MostrarInfo()">Ver informacion</button>
+    </div>
+    <div class="pet-card-container">
+        <div class="pet-card">
+            <h1 id="pet-name">Minnie</h1>
+            <h2 class="pet-card-h2">Raza: <label for="" id="pet-especie">Gato - American wirehair</label></h2>
+            <h2 class="pet-card-h2">Cumpleaño: <label for="" id="pet-birthday">16 de abril</label></h2>
+            <h2 class="pet-card-h2">Edad: <label for="" id="pet-edad">7 años</label></h2>
+            <h2 class="pet-card-h2">Fecha de adopcion: <label for="" id="pet-adopcion">16/04/2013</label></h2>
+        </div>
+    </div>
+    
+</div>
+<script src="js/pets.js"></script>
 
 <%- include("../partials/footer"); -%>

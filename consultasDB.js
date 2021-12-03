@@ -33,7 +33,7 @@ let Mis_Reservaciones = async (id) => {
         let result = await pool.request()
             .input('id_cliente', sql.Int, id)
             .execute('Mis_Reservaciones')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -54,7 +54,7 @@ let Regresar_DatosCliente = async (id_cliente) => {
             .output('fnacimiento', sql.Date)
             .output('pconfianza', sql.Int)
             .execute('Regresar_DatosCliente')
-        // console.dir(result);
+        // //console.dir(result);
         // console.log("a ver");
         pool.close(); return result;
     } catch (err) {
@@ -75,7 +75,7 @@ let Regresar_Direccion_Cliente = async (id_cliente) => {
             .output('ne',  sql.NVarChar(5))
             .output('ni',  sql.NVarChar(5))
             .execute('Regresar_Direccion_Cliente')
-        // console.dir(result);
+        // //console.dir(result);
         // console.log("a ver");
         pool.close(); return result;
     } catch (err) {
@@ -107,7 +107,7 @@ let Agregar_Usuario = async (email,password,name,lastname1,lastname2) => {
             .input('apellidop', sql.NVarChar(20),lastname1)
             .input('apellidom', sql.NVarChar(20),lastname2)
             .execute('Agregar_Usuario')
-        console.dir(result);
+        // //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -129,7 +129,7 @@ let ActualizarDatos_Cliente = async (id,estado,municipio,colonia,calle,ne,ni,cel
             .input('fnacimiento', sql.Date,fnacimiento)
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarDatos_Cliente')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -143,7 +143,7 @@ let ActualizarPConfianza = async (id, pconfianza) => {
             .input('id', sql.Int, id)
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarPConfianza')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -158,7 +158,7 @@ let Agregar_Empleado = async (nombre, apellidop,apellidom) => {
             .input('apellidop', sql.NVarChar(20),apellidop)
             .input('apellidom', sql.NVarChar(20),apellidom)
             .execute('Agregar_Empleado')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -173,7 +173,7 @@ let Agregar_Mesa = async (idMesa, nasientos,ocupado) => {
             .input('nasientos', sql.Int,nasientos)
             .input('ocupado', sql.Bit,ocupado)
             .execute('Agregar_Mesa')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -189,7 +189,7 @@ let Agregar_EspecieRaza = async (especie, raza, alimentacion, esperanzavida ) =>
             .input('alimentacion', sql.NVarChar(30),alimentacion)
             .input('esperanzavida', sql.Int,esperanzavida)
             .execute('Agregar_EspecieRaza')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -204,7 +204,7 @@ let Agregar_Mascota = async (fk_Id_EspecieRaza, nombre, fcumpleaños) => {
             .input('nombre', sql.NVarChar(20), nombre)
             .input('fcumpleaños', sql.Date,fcumpleaños)
             .execute('Agregar_Mascota')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -226,7 +226,7 @@ let Agregar_Reservacion = async (fk_Id_Empleado,fk_Id_Cliente,fk_Id_Mascota,fk_I
             .input('horafin', sql.Time,horafin)
             .input('numeropersonas', sql.Int,numeropersonas)
             .execute('Agregar_Reservacion')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -242,7 +242,7 @@ let Asignar_asistencia = async (id, id_empleado,horallegada, asistencia) => {
             .input('horallegada', sql.Time, horallegada)
             .input('asistencia', sql.Bit,asistencia)
             .execute('Asignar_asistencia')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -256,7 +256,7 @@ let Eliminar_Reservacion = async (idreservacion,idcliente) => {
             .input('idreservacion', sql.Int, idreservacion)
             .input('idcliente', sql.Int, idcliente)
             .execute('Eliminar_Reservacion')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -269,7 +269,7 @@ let Eliminar_Usuario = async (id) => {
         let result = await pool.request()
             .input('id', sql.Int, id)
             .execute('Eliminar_Usuario')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -283,7 +283,7 @@ let Comprobacion_Datos_Registrados = async (id) => {
             .input('id', sql.Int, id)
             .output('resultado', sql.Bit)
             .execute('Comprobacion_Datos_Registrados')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); return result;
     } catch (err) {
         console.dir(err);
@@ -299,7 +299,7 @@ let Obtener_HoraFechaReservacion = async (idreservacion,idcliente) => {
             .output('horainicio', sql.DateTime)
             .output('fechareservacion', sql.Date)
             .execute('Obtener_HoraFechaReservacion')
-        console.dir(result);
+        //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -311,7 +311,7 @@ let Mostrar_Mascotas = async () => {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .execute('Mostrar_Mascotas')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -323,7 +323,7 @@ let Mostrar_Empleados = async () => {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .execute('Mostrar_Empleados')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -335,7 +335,7 @@ let Mostrar_Razas = async () => {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .execute('Mostrar_Razas')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -351,7 +351,7 @@ let Reservacion_Cliente = async (id_reservacion,nombre,apellidop,apellidom) => {
             .input('apellidop_cliente', sql.NVarChar(20), apellidop)
             .input('apellidom_cliente', sql.NVarChar(20), apellidom)
             .execute('Reservacion_cliente')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -365,7 +365,7 @@ let Eliminar_Empleados = async (id_empleado) => {
         let result = await pool.request()
             .input('id_empleado', sql.Int, id_empleado)
             .execute('Eliminar_Empleados')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -379,7 +379,7 @@ let Eliminar_Mascotas = async (id_mascota) => {
         let result = await pool.request()
             .input('id_mascota', sql.Int, id_mascota)
             .execute('Eliminar_Mascota')
-        // console.dir(result);
+        // //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -393,7 +393,25 @@ let Eliminar_Razas = async (id_raza) => {
         let result = await pool.request()
             .input('id_raza', sql.Int, id_raza)
             .execute('Eliminar_Razas')
-        // console.dir(result);
+        // //console.dir(result);
+        pool.close(); 
+        return result;
+    } catch (err) {
+        console.dir(err);
+    }
+}
+
+let Comprobar_Reservacion = async (id_Mascota,id_Mesa,fechaReservacion,horaInicio) => {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request()
+            .input('id_Mascota', sql.Int, id_Mascota)
+            .input('id_Mesa', sql.Int, id_Mesa)
+            .input('fechaReservacion', sql.Date, fechaReservacion)
+            .input('horaInicio', sql.Time, horaInicio)
+            .output('result', sql.Bit)
+            .execute('Comprobar_Reservacion')
+        //console.dir(result);
         pool.close(); 
         return result;
     } catch (err) {
@@ -429,5 +447,6 @@ module.exports = {
     Eliminar_Razas: Eliminar_Razas,
     Eliminar_Mascotas: Eliminar_Mascotas,
     Eliminar_Empleados: Eliminar_Empleados,
-    Reservacion_Cliente: Reservacion_Cliente
+    Reservacion_Cliente: Reservacion_Cliente,
+    Comprobar_Reservacion: Comprobar_Reservacion
 };

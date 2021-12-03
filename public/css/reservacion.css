@@ -59,7 +59,12 @@ label{
     margin-right: 5rem;
     float: left;
 }
-
+.hinput{
+    width: 5px;
+}
+#hLlegada{
+    width: 5px;
+}
 #left-op{
     margin-left: 3rem;
 }

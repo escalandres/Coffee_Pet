@@ -1,5 +1,7 @@
 <%- include("../partials/userHeader", {page: 'Reservacion'}); -%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+<!--  -->
 <div id="carousel-section1">
     <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-interval="true">
         <div class="carousel-inner">
@@ -26,6 +28,7 @@
         </button>
     </div>
 </div>
+
 <div class="reservation-section card-template">
     <form action="/reservacion" method="post" id="reservacion-form">
         <div class="form-container">
@@ -54,18 +57,26 @@
                             <option class="" value="5">Mia</option><option class="" value="6">Max</option><option class="" value="7">Nina</option><option class="" value="8">Coco</option><option class="" value="9">Mylo</option><option class="" value="10">Marc</option>
                             <option class="" value="11">Peque</option><option class="" value="12">Larry</option><option class="" value="13">Nala</option><option class="" value="14">Lily</option><option class="" value="15">Tom</option><option class="" value="16">Jack</option>
                             <option class="" value="17">Tyson</option><option class="" value="18">Bruno</option></select>
-                        <input class="mchoice" name="mascotaChoice" id="mascotaChoice" readonly></input>
+                        <input class="mchoice" style="border: 0; border-color: white; color: white;" name="mascotaChoice" id="mascotaChoice" readonly></input>
                         </div>
                     <label for="">Seleccione las horas de reservacion</label>
                     <div class="radio-part">
                         <div class="radio-op" id="">
                             <label for="">Hora de Llegada</label>
-                            <input class="" type="time" id="hLlegada" name="hLlegada" required>
+                            <input class="hinput" style="width: 100px;" type="text" id="hLlegada" name="hLlegada" list="horaInicio" required>
+                            <datalist id="horaInicio">
+                                <option value="10:00"><option value="10:30"><option value="11:00"><option value="11:30"><option value="12:00"><option value="12:30"><option value="13:00"><option value="13:30"><option value="14:00"><option value="14:30"><option value="15:00"><option value="15:30"><option value="16:00"><option value="16:30"><option value="17:00"><option value="17:30"><option value="18:00"><option value="18:30"><option value="19:00">
+                            </datalist>
                         </div>
                         <div class="radio-op" id="left-op">
                             <label for="">Hora de Salida</label>
-                            <input class="" type="time" id="hSalida" name="hSalida" required>
+                            <input class="hinput" style="width: 100px;" type="text" id="hSalida" name="hSalida" list="horaSalida" required>
+                            <datalist id="horaSalida">
+                                <option value="11:00"><option value="11:30"><option value="12:00"><option value="12:30"><option value="13:00"><option value="13:30"><option value="14:00"><option value="14:30"><option value="15:00"><option value="15:30"><option value="16:00"><option value="16:30"><option value="17:00"><option value="17:30"><option value="18:00"><option value="18:30"><option value="19:00"><option value="19:30"><option value="20:00">
+                            </datalist>
                         </div>
+                        
+                        
                         <!-- <div class="radio-op ocultar mesa-option" id="mesa-option">
                             <label for="">Hora de Llegada</label>
                             <input class="mesa-required" type="time" id="hLlegada" name="hLlegada" required>
@@ -102,5 +113,21 @@
             
         </div>
 </div>
-<script src="js/reservacion.js"></script>
+
+<h2 style="display:none;" id="uid"><%=fecha %></h2>
+
+<script type="text/javascript">
+    (function($) {
+        $(document).ready(function() {
+            var x = $("#uid").html();
+            if(x==1){
+                alert("La fecha ingresada no puede ser menor que la fecha de hoy!");  // now JS variable 'x' has the uid that's passed from the node backend.
+            } 
+            else if(x==2){
+                alert("Por favor cambie alguno de los datos: fecha, hora inicio, mascota o mesa!")
+            }
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript" src="js/reservacion.js"></script>
 <%- include("../partials/footer"); -%>

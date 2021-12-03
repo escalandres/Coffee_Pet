@@ -15,7 +15,6 @@ const app = express();
 const prueba = require("./consultasDB");
 const cookieSession = require('cookie-session');
 const opciones = require("./opciones");
-// const reservaciones = require("./mis-reservaciones");
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -131,7 +130,7 @@ app.get("/upets",function(req,res){
 
 app.get("/reservacion",function(req,res){
 	try {
-		res.render("pages/reservacion",{Name: req.cookies.user.email});
+		res.render("pages/reservacion",{Name: req.cookies.user.email,fecha: 0});
 	} catch (err) {
 		console.log(err.message);
 		res.redirect("error");
@@ -381,7 +380,7 @@ app.get("/perfil",function(req,res){
 				estado: '',
 				alcaldia: ''
 			}
-			console.log("vamos");
+			// console.log("vamos");
 			prueba.Regresar_DatosCliente(req.cookies.user.id)
 				.then(result => {
 					console.dir(result)
@@ -396,7 +395,7 @@ app.get("/perfil",function(req,res){
 				})
 			prueba.Regresar_Direccion_Cliente(req.cookies.user.id)
 			.then(result => {
-				console.dir(result)
+				// console.dir(result)
 				direccion.estado = result.output.estado;
 				direccion.alcaldia = result.output.municipio;
 				direccion.calle = result.output.calle;
@@ -690,45 +689,73 @@ app.post("/reservacion", function(req,res){
 		numPersonas: req.body.numPersonas,
 		mesa: req.body.numMesa
 	}
-	reservacion.horaInicio = req.body.hLlegada;
-	reservacion.horaFin = req.body.hSalida;
-	reservacion.numPersonas = parseInt(reservacion.numPersonas)
-	reservacion.mesa = parseInt(reservacion.mesa)
-	console.log(tipoReservacion);
-	if(tipoReservacion=="mesa"){
-		reservacion.tipo = 0;
-		
+	let fechaExpedicion = new Date();
+	let fE = fechaExpedicion.toISOString();
+	let fR = reservacion.fechaReservacion;
+	// console.log(fR)
+	// console.log(fE)
+	if(fR<fE){
+		// console.log("Menor")
+		res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 1})
 	}
 	else{
-		reservacion.tipo = 1;
-	}
+		reservacion.horaInicio = req.body.hLlegada;
+		reservacion.horaFin = req.body.hSalida;
+		reservacion.numPersonas = parseInt(reservacion.numPersonas)
+		reservacion.mesa = parseInt(reservacion.mesa)
+		// console.log(tipoReservacion);
+		if(tipoReservacion=="mesa"){
+			reservacion.tipo = 0;
+		}
+		else{
+			reservacion.tipo = 1;
+		}
+	
+		// console.log(reservacion.horaInicio);
+		// console.log(typeof(reservacion.horaInicio));
+		var b = opciones.toDate(reservacion.horaInicio,"hh:mm");
+		var c = opciones.toDate(reservacion.horaFin,"hh:mm");
+		// console.log(b.getHours()+b.getMinutes());
+		// var x=new Date(b.getHours(),b.getMinutes());
+		// console.log('x: '+x);
+		// console.log('hora: '+b.getHours().toString()+':'+b.getMinutes().toString());
+		// console.log('Thora: '+b.toTimeString());
+		// console.log(c);
+		// console.log(typeof(b))
+		// console.log("fecha: "+fechaExpedicion.toLocaleString());
+		let idMascota;
+		prueba.Regresar_IDMascota(reservacion.mascota)
+		.then(id=> {
+			idMascota = ''+id.output.id;
+			console.log("idMascota: "+idMascota);
+		})
+		.catch(error => {
+			console.log(`Hubo un error`);
+		});
+		setTimeout(async()=>{
+			prueba.Comprobar_Reservacion(idMascota,reservacion.mesa,reservacion.fechaReservacion,b)
+			.then(result =>{
+				let ocupado = result.output.result
+				console.log("result: "+result)
+				if(ocupado===false){
+					setTimeout(async()=>{
+						prueba.Agregar_Reservacion(1,req.cookies.user.id,idMascota,reservacion.mesa,reservacion.tipo,fechaExpedicion,reservacion.fechaReservacion,b,c,reservacion.numPersonas);
+						console.log("Reservacion Agregada!");
+						res.redirect("mis-reservaciones");
+					},2000);
+				}
+				else{
+					res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 2})
 
-	console.log(reservacion.horaInicio);
-	console.log(typeof(reservacion.horaInicio));
-	var b = opciones.toDate(reservacion.horaInicio,"hh:mm");
-	var c = opciones.toDate(reservacion.horaFin,"hh:mm");
-	console.log(b.getHours()+b.getMinutes());
-	// var x=new Date(b.getHours(),b.getMinutes());
-	// console.log('x: '+x);
-	console.log('hora: '+b.getHours().toString()+':'+b.getMinutes().toString());
-	console.log('Thora: '+b.toTimeString());
-	console.log(c);
-	// console.log(typeof(b))
-	let fechaExpedicion = new Date();
-	console.log("fecha: "+fechaExpedicion.toLocaleString());
-	let idMascota;
-	prueba.Regresar_IDMascota(reservacion.mascota)
-	.then(id=> {
-		idMascota = ''+id.output.id;
-		console.log("idMascota: "+idMascota);
-	})
-	.catch(error => {
-		console.log(`Hubo un error`);
-	});
-	setTimeout(async()=>{
-		prueba.Agregar_Reservacion(1,req.cookies.user.id,idMascota,reservacion.mesa,reservacion.tipo,fechaExpedicion,reservacion.fechaReservacion,b,c,reservacion.numPersonas);
-		console.log("Reservacion Agregada!");
-	},2000);
+				}
+			})
+			.catch(error=>{
+				console.log(error)
+			})
+			
+		},2000);
+	}
+	
 	
 	
 })
