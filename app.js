@@ -695,8 +695,7 @@ app.post("/reservacion", function(req,res){
 	// console.log(fR)
 	// console.log(fE)
 	if(fR<fE){
-		// console.log("Menor")
-		res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 1})
+		// console.log("Menor")es.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 1})
 	}
 	else{
 		reservacion.horaInicio = req.body.hLlegada;
