@@ -3,18 +3,18 @@ const https = require('https');
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const config = require("./dbconfig");
+const config = require(__dirname +"/dbconfig");
 const sql = require('mssql')
 const port = 3001;
-const admin = require("./adminconfig");
+const admin = require(__dirname +"/adminconfig");
 const fs = require("fs");
-const passwordManager = require("./passwordManager");
+const passwordManager = require(__dirname +"/passwordManager");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const app = express();
-const prueba = require("./consultasDB");
+const prueba = require(__dirname +"/consultasDB");
 const cookieSession = require('cookie-session');
-const opciones = require("./opciones");
+const opciones = require(__dirname +"/opciones");
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -39,19 +39,14 @@ app.use(session({
 }))
 
 // https.createServer({
-// 	cert: fs.readFileSync(''),
-// 	key: fs.readFileSync('')
+// 	cert: fs.readFileSync('server.cer'),
+// 	key: fs.readFileSync('server.key')
 // },app).listen(port,function(){
 // 	console.log('Servidor https corriendo')
 // });
 
 app.get("/", function(req, res){
 	res.render("pages/index");
-	// let cookieExist = cookieCheck.cookieChecker("user");
-	// console.log(cookieExist);
-	// console.dir(req.cookies.user.email);
-	// console.dir(req.cookies.user.password);
-	// console.dir(req.cookies.user.id);
 });
 
 app.get("/home", function(req, res){
@@ -383,7 +378,7 @@ app.get("/perfil",function(req,res){
 			// console.log("vamos");
 			prueba.Regresar_DatosCliente(req.cookies.user.id)
 				.then(result => {
-					console.dir(result)
+					// console.dir(result)
 					cliente.pconfianza = result.output.pconfianza;
 					cliente.nombre = result.output.nombre;
 					cliente.apellidop = result.output.apellidop;
