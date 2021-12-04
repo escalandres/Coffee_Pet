@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const config = require(__dirname +"/dbconfig");
 const sql = require('mssql')
-const port = 3001;
+// const port = 3001;
 const admin = require(__dirname +"/adminconfig");
 const fs = require("fs");
 const passwordManager = require(__dirname +"/passwordManager");
@@ -990,6 +990,11 @@ app.post("/admin-validar_reservacion",function(req,res){
 		res.redirect("admin");
 	},2000);
 })
+
+let port = process.env.PORT;
+if(port == null || port == ""){
+  port = 3000;
+}
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
