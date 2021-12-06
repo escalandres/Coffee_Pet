@@ -26,7 +26,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" id="admin-options" href="#"><i class="fas fa-user"></i>     Mi perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" id="admin-logout" href="../logout"><i class="fas fa-sign-out-alt"></i>  Cerrar sesion</a></li>
+                        <li><a class="dropdown-item" id="admin-logout" href="../logout-admin"><i class="fas fa-sign-out-alt"></i>  Cerrar sesion</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -98,10 +98,12 @@
                             <label for="">No</label>
                             <input type="radio" name="asistencia" value="0" id="radio2" onclick="">
                         </div>
-                        <button type="submit" id="btn-validar" class="btn btn-primary">Validar</button>
-
+                        
                     </div>
                 </div>
+                <label for="">Nombre del Cliente</label>
+                <input type="text" name="nombre_cliente" id="nombre_cliente" placeholder="Nombre(s) y Apellidos">
+                <button type="submit" id="btn-validar" class="btn btn-primary">Validar</button>
             </form>            
         </div>
         

@@ -136,11 +136,13 @@ let ActualizarDatos_Cliente = async (id,estado,municipio,colonia,calle,ne,ni,cel
     }
 }
 
-let ActualizarPConfianza = async (id, pconfianza) => {
+let ActualizarPConfianza = async (nombres, apellidop, apellidom, pconfianza) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request()
-            .input('id', sql.Int, id)
+            .input('nombres', sql.NVarChar(20), nombres)
+            .input('apellidop', sql.NVarChar(20), apellidop)
+            .input('apellidom', sql.NVarChar(20), apellidom)
             .input('pconfianza', sql.Int,pconfianza)
             .execute('ActualizarPConfianza')
         //console.dir(result);

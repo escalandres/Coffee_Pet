@@ -182,7 +182,13 @@ app.get("/mis-reservaciones",function(req,res){
 				}
 				else if(j===5){
 					//console.log("++5: ")
-					rese[i][j]=result.recordset[i].FechaReservacion.toLocaleDateString();
+					const today = result.recordset[i].FechaReservacion;
+					const tomorrow = new Date(today)
+					tomorrow.setDate(tomorrow.getDate() + 1)
+					rese[i][j]=tomorrow.toLocaleDateString();
+					// console.log("ISO: "+tomorrow.toISOString())
+					// console.log("Locale: "+tomorrow.toLocaleDateString())
+					// rese[i][j]=result.recordset[i].FechaReservacion.toLocaleDateString();
 				}
 				else if(j===6){
 					//console.log("++6: ")
@@ -217,7 +223,12 @@ app.get("/mis-reservaciones",function(req,res){
 
 app.get("/login-admin",function(req,res){
 	try {
-		res.render("pages/login-admin");
+		if(req.cookies.admin===undefined){
+			res.render("pages/login-admin");
+		}
+		else{
+			res.redirect("admin")
+		}
 	} catch (err) {
 		console.log(err.message);
 		res.redirect("error");
@@ -230,6 +241,7 @@ app.get("/logout-admin",function(req,res){
 		logAdmin = false;
 		sessionAdmin = 0;
 		console.log("Sesion admin cerrada");
+		res.clearCookie('admin', { path: '/' });
 		res.redirect("/");
 	} catch (err) {
 		console.log(err.message);
@@ -253,15 +265,12 @@ app.get("/logout",function(req,res){
 
 app.get("/admin",function(req,res){
 	try {
-		let empleados,mascotas,razas;
+		if(req.cookies.admin===undefined){
+			res.redirect("error")
+		}
+		else{
+			let empleados,mascotas,razas;
 		let esize, msize, rsize;
-		// if(logAdmin === true && sessionAdmin === 0){
-		// 	res.render("pages/admin");
-		// 	sessionAdmin = 1;
-		// }
-		// else{
-		// 	res.redirect("error");
-		// }
 		prueba.Mostrar_Empleados()
 		.then(result => {
 			esize = result.recordset.length;
@@ -346,6 +355,8 @@ app.get("/admin",function(req,res){
 		setTimeout(async()=>{
 			res.render("pages/admin",{empleados: empleados,esize:esize,mascotas: mascotas,msize:msize, razas:razas, rsize: rsize,reservacion_cliente: "",resersize: 0});
 		},4000);
+		}
+		
 	} catch (err) {
 		console.log(err.message);
 		res.redirect("error");
@@ -629,11 +640,7 @@ app.post("/login", function(req,res){
 })
 
 app.post("/login-admin", function(req, res){
-	// if(logAdmin === true){
 
-	// 	// res.redirect("error");
-	// }
-	// else{
 		const user = {
 			username: req.body.username,
 			password: req.body.password,
@@ -642,6 +649,7 @@ app.post("/login-admin", function(req, res){
 		if(user.username === admin.username && user.password === admin.password && user.key === admin.key){
 			console.log("Si se pudo");
 			logAdmin = true;
+			res.cookie('admin',{id: "admin"},{expire : new Date() + 9999},{ signed: true });
 			res.redirect("admin");
 		}
 		else{
@@ -684,13 +692,15 @@ app.post("/reservacion", function(req,res){
 		numPersonas: req.body.numPersonas,
 		mesa: req.body.numMesa
 	}
+	console.log("FeRe: "+reservacion.fechaReservacion)
 	let fechaExpedicion = new Date();
 	let fE = fechaExpedicion.toISOString();
 	let fR = reservacion.fechaReservacion;
-	// console.log(fR)
-	// console.log(fE)
+	console.log("FR:"+fR)
+	console.log("FE:"+fE)
 	if(fR<fE){
-		// console.log("Menor")es.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 1})
+		console.log("Menor")
+		res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 1})
 	}
 	else{
 		reservacion.horaInicio = req.body.hLlegada;
@@ -979,11 +989,14 @@ app.post("/admin-validar_reservacion",function(req,res){
 	let id_reservacion = req.body.id_reservacion;
 	let id_empleado = req.body.num_empleado;
 	let asistencia = req.body.asistencia;
+	let nombre_cliente = req.body.nombre_cliente;
+	let nombre = opciones.dividirCadena(nombre_cliente, " ");
 	let horaAsistencia = new Date();
 	let horaActual = ""+horaAsistencia.getHours().toString()+':'+horaAsistencia.getMinutes().toString();
 	var b = opciones.toDate(horaActual,"hh:mm");
 	console.log(asistencia)
 	prueba.Asignar_asistencia(id_reservacion,id_empleado,b,asistencia);
+	prueba.ActualizarPConfianza(nombre[0]+" "+nombre[1],nombre[2], nombre[3],10)
 	setTimeout(async()=>{
 		res.redirect("admin");
 	},2000);
