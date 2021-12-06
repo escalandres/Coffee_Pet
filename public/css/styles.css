@@ -113,6 +113,7 @@
 
 
 .testimonial-text{
+    font-family: "Times New Roman", Times, serif;
     font-size:1.8rem;
     text-align: justify;
     line-height:1.5;
@@ -181,14 +182,15 @@
 
 #pets-section-label{
     margin-top: 3rem;
-    margin-left: 28rem;
-    font-size:80px;
+    text-align: center;
+    font-size:60px;
+    
 }
 
 #testimonial-section-label{
     margin-top: 3rem;
-    margin-left: 21rem;
-    font-size:80px;
+    text-align: center;
+    font-size:60px;
 }
 
 .carousel-control-next-icon,.carousel-control-prev-icon{
@@ -237,6 +239,15 @@
     margin-left: 2rem;
     font-size: 40px;
     color: white;
+}
+
+.about-text{
+    position: absolute;
+    z-index: 3;
+    text-align:justify;
+    margin-top:28rem;
+    font-size: 25px;
+    color:whitesmoke;
 }
 
 .card-template {
@@ -289,11 +300,11 @@
 }
 
 .pets-page{
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     width: 100%;
     height: 80%;
-    /* margin-top: 0.7rem;
-    margin-left: 1rem; */
+    margin-top: 0.7rem;
+    margin-left: 1rem;
 }
 
 #btn-pet{
@@ -313,4 +324,49 @@
 
 .pet-card-container{
     height: 450px;
+}
+/**/
+.cafeteria2{
+    position: relative;
+    width: 1015px;
+    height: 150px;
+    
+    margin-left: 10rem;
+    background-color: #ef8172;
+    border-color: #000;
+}
+
+.cafeteria3{
+    
+    width: 1015px;
+    height: 450px;
+    margin-top: 0.5rem;
+    margin-left: 10rem;
+}
+
+.about-title2{
+    text-align: left;
+    margin-top:3rem;
+    margin-left: 2rem;
+    font-size: 40px;
+    color: black;
+}
+
+.caja{
+    width: 1015px;
+    border: 5px solid aqua;
+    padding: 50px;
+    margin: 20px;
+}
+
+.about-text2{
+    /*text-align:justify;
+    margin-top:5rem;*/
+    font-size: 30px;
+    color:black;
+}
+
+.Anuncio{
+    height: 500px;
+    width: 900px;
 }

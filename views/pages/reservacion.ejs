@@ -124,7 +124,16 @@
                 alert("La fecha ingresada no puede ser menor que la fecha de hoy!");  // now JS variable 'x' has the uid that's passed from the node backend.
             } 
             else if(x==2){
-                alert("Por favor cambie alguno de los datos: fecha, hora inicio, mascota o mesa!")
+                alert("La mascota y la mesa seleccionadas estan ocupadas, por favor seleccione otras!");
+            }
+            else if(x==3){
+                alert("La mascota seleccionada esta ocupada, por favor seleccione otra!");
+            }
+            else if(x==4){
+                alert("La mesa seleccionada esta ocupada, por favor seleccione otra!");
+            }
+            else{
+                alert("Error");
             }
         });
     })(jQuery);

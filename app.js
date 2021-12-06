@@ -704,19 +704,8 @@ app.post("/reservacion", function(req,res){
 		else{
 			reservacion.tipo = 1;
 		}
-	
-		// console.log(reservacion.horaInicio);
-		// console.log(typeof(reservacion.horaInicio));
 		var b = opciones.toDate(reservacion.horaInicio,"hh:mm");
 		var c = opciones.toDate(reservacion.horaFin,"hh:mm");
-		// console.log(b.getHours()+b.getMinutes());
-		// var x=new Date(b.getHours(),b.getMinutes());
-		// console.log('x: '+x);
-		// console.log('hora: '+b.getHours().toString()+':'+b.getMinutes().toString());
-		// console.log('Thora: '+b.toTimeString());
-		// console.log(c);
-		// console.log(typeof(b))
-		// console.log("fecha: "+fechaExpedicion.toLocaleString());
 		let idMascota;
 		prueba.Regresar_IDMascota(reservacion.mascota)
 		.then(id=> {
@@ -727,20 +716,29 @@ app.post("/reservacion", function(req,res){
 			console.log(`Hubo un error`);
 		});
 		setTimeout(async()=>{
+			console.log("Verificando reservacion")
 			prueba.Comprobar_Reservacion(idMascota,reservacion.mesa,reservacion.fechaReservacion,b)
 			.then(result =>{
 				let ocupado = result.output.result
 				console.log("result: "+result)
-				if(ocupado===false){
+				if(ocupado===4){
 					setTimeout(async()=>{
 						prueba.Agregar_Reservacion(1,req.cookies.user.id,idMascota,reservacion.mesa,reservacion.tipo,fechaExpedicion,reservacion.fechaReservacion,b,c,reservacion.numPersonas);
 						console.log("Reservacion Agregada!");
 						res.redirect("mis-reservaciones");
 					},2000);
 				}
-				else{
+				else if(ocupado===1){
+					//Cambiar mascota y mesa
 					res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 2})
-
+				}
+				else if(ocupado===2){
+					//Cambiar mascota
+					res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 3})
+				}
+				else{
+					//Cambiar mesa
+					res.render("pages/reservacion",{Name:req.cookies.user.name,fecha: 4})
 				}
 			})
 			.catch(error=>{

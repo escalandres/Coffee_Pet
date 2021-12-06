@@ -409,8 +409,8 @@ let Comprobar_Reservacion = async (id_Mascota,id_Mesa,fechaReservacion,horaInici
             .input('id_Mesa', sql.Int, id_Mesa)
             .input('fechaReservacion', sql.Date, fechaReservacion)
             .input('horaInicio', sql.Time, horaInicio)
-            .output('result', sql.Bit)
-            .execute('Comprobar_Reservacion')
+            .output('result', sql.Int)
+            .execute('Comprobar_ReservacionB')
         //console.dir(result);
         pool.close(); 
         return result;
