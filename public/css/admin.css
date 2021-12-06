@@ -21,6 +21,12 @@
     color:white;
 }
 
+.s-fixed{
+    z-index:100;
+    position:fixed;
+    width:100%;
+}
+
 /*Sections*/
 
 .color-section{
