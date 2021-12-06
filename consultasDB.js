@@ -380,7 +380,7 @@ let Eliminar_Mascotas = async (id_mascota) => {
         let pool = await sql.connect(config);
         let result = await pool.request()
             .input('id_mascota', sql.Int, id_mascota)
-            .execute('Eliminar_Mascota')
+            .execute('Eliminar_Mascotas')
         // //console.dir(result);
         pool.close(); 
         return result;
