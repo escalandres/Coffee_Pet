@@ -1,9 +1,9 @@
 const config={
-    user:"sa",
-    password:"di mi nombre",
-    server:"SKLA-L",//169.254.210.155 169.254.138.141 SKLA-L
-    database:"prueba",
-    port:1433,
+    user:"##",
+    password:"#####",
+    server:"####",
+    database:"###",
+    port:####,
     options:{
         trustedconnection: false,
         enableArithAbort: true,
